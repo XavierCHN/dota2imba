@@ -1,0 +1,1478 @@
+"DOTAAbilities"
+{
+	"ability_dummy_unit"
+	{
+		"BaseClass" 					"ability_datadriven"
+		"AbilityTextureName"			"rubick_empty1"
+		"Modifiers"
+		{
+			"dummy_unit"
+			{
+				"Passive"						"1"
+				"IsHidden"						"1"	
+				"States"
+				{
+					"MODIFIER_STATE_UNSELECTABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NOT_ON_MINIMAP"	   	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_UNIT_COLLISION"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVISIBLE"			"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	}
+	// REGION ANTIMAGE
+	"antimage_mana_break_imba"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityType"				"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"			"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitDamageType"		"DAMAGE_TYPE_PHYSICAL"
+		"AbilityTextureName"		"antimage_mana_break"
+
+		"Modifiers"
+		{
+			"modifier_antimage_mana_break_imba"
+			{
+				"IsHidden"			"0"	//TODO 1
+				"Passive"			"1"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_antimage.lua"
+						"Target"		"TARGET"
+						"Function"		"OnManaBreakAttackLanded"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"damage_per_burn"			"0.6"
+			}
+			"02"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"mana_per_hit"	"40 48 46 64"
+			}
+			"03"
+			{
+				"var_type"		"FIELD_FLOAT"
+				"mana_percentage_per_hit"	"5 6 7 8"
+			}
+		}
+	}
+	"antimage_blink_imba"
+	{
+		"BaseClass"			"ability_datadriven"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityType"		"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityTextureName"	"antimage_blink"
+		"AbilityCastPoint"	"0.4 0.4 0.4 0.4"
+		"AbilityManaCost"	"60 60 60 60"
+		"AbilityCooldown"	"12.0 9.0 7.0 5.0"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_2"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_antimage.lua"
+				"Target"		"POINT"
+				"Function"		"OnAntiMageBlink"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"blink_range"			"1000 1075 1150 1150"
+			}
+			
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"min_blink_range"		"200"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"mana_void_range"		"200"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"mana_void_duration"	"0.5 0.7 0.9 1.1"
+			}
+		}
+	}
+	"antimage_spell_shield_imba"
+	{
+	 	"BaseClass"		"ability_datadriven"
+	 	"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityType"		"DOTA_ABILITY_TYPE_BASIC"
+	 	"AbilityTextureName"	"antimage_spell_shield"
+	
+	 	"AbilityCastPoint"		"0.0 0.0 0.0 0.0"
+	 	"AbilityManaCost"		"60 70 80 90"
+		"AbilityCooldown"		"20 17 15 13"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_2"
+
+	 	"OnSpellStart"
+	 	{
+	 		"RemoveModifier"
+	 		{
+	 			"Target" 			"CASTER"
+	 			"ModifierName"		"modifier_antimage_spell_shield_passive"
+	 		}
+	 		"ApplyModifier"
+	 		{
+	 			"Target" 			"CASTER"
+	 			"ModifierName"		"modifier_antimage_spell_shield_positive"
+	 		}
+	 	}
+	 	"Modifiers"
+	 	{
+	 		"modifier_antimage_spell_shield_passive"
+	 		{
+	 			"Passive"		"1"
+	 			"Properties"
+	 			{
+					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"	"%magic_resistance_bonus"
+				}
+			}
+			"modifier_antimage_spell_shield_positive"
+			{
+				"Duration"		"%duration"
+				
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS"	"%activated_magic_resistance_bonus"
+				}
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"		"particles/units/heroes/hero_medusa/medusa_mana_shield_oldbase.vpcf"
+						"EffectAttachType" 	"follow_chest"
+						"Target" 			"CASTER"
+					}
+				}
+				"OnDestroyed"
+				{
+					"ApplyModifier"
+					{
+						"Target" 			"CASTER"
+						"ModifierName"		"modifier_antimage_spell_shield_passive"
+					}
+					"ApplyModifier"
+					{
+						"Target"
+						{
+							"Center"			"CASTER"
+							"Radius"			"stun_radius"
+							"Types"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+							"Teams"				"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						}
+						"ModifierName"			"modifier_spell_shield_stun"
+					}
+				}
+			}
+			"modifier_spell_shield_stun"
+			{
+				"Duration"		"%stun_duration"
+				"States"
+				{
+					"MODIFEIR_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"magic_resistance_bonus"			"15 25 35 45"
+			}
+			"02"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"duration"		"4 5 6 7"
+			}
+			"03"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"stun_radius"	"200 225 250 275"
+			}
+			"04"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"stun_duration"	"90"
+			}
+		}
+	}
+	"antimage_mana_void_imba"
+	{
+		"BaseClass"			"ability_datadriven"
+		"AbilityType"		"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"			"600"
+		"AbilityCastPoint"			"0.3 0.3 0.3"
+		"AbilityCooldown"			"70.0 70.0 70.0"	
+		"AbilityManaCost"			"125 200 275"
+		"AbilityTextureName"		"antimage_mana_void"
+		"AOERadius"				"%radius"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_4"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_antimage.lua"
+				"Target"		"TARGET"
+				"Function"		"OnManaVoidCasted"
+			}
+			"FireEffect"
+			{
+				"Target"			"TARGET"
+				"EffectName"		"particles/units/heroes/hero_antimage/antimage_manavoid.vpcf"
+				"EffectAttachType"	"follow_chest"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_antimage_mana_void_imba_passive"
+			{
+				"Passive"		"1"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_antimage.lua"
+						"Target"		"TARGET"
+						"Function"		"OnManaVoidAttackLanded"
+					}
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"radius"			"700 900 1000"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_radius"		"500"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"damage_ratio"		"0.6 0.85 1.1"
+			}
+		}
+	}
+	// REGION JUGGERNAUT
+	"juggernaut_blade_fury_imba"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"			"juggernaut_blade_fury"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_CHANNEL"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"0"
+		"AbilityCastPoint"				"0 0 0 0"
+		"AbilityCooldown"				"30.0 27.0 24.0 21.0"
+		"AbilityDuration"				"5.0 5.0 5.0 5.0"
+		"AbilityManaCost"				"110 110 110 110"
+		"AbilityDamage"					"16 20 24 28"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target" 			"CASTER"
+				"ModifierName"		"modifier_juggernaught_blade_fury_imba"
+			}
+			"ApplyModifier"
+			{
+				"Target" 			"CASTER"
+				"ModifierName"		"modifier_juggernaut_blade_fury_pull"
+			}
+			
+			// "FireSound"
+			// {
+			// 	"EffectName"		"Hero_Juggernaut.BladeFuryStart"
+			// 	"Target" 			"CASTER"
+			// }
+		}
+		"Modifiers"
+		{
+			"modifier_juggernaught_blade_fury_imba"
+			{
+				"Duration"			"%AbilityDuration"
+				"OverrideAnimation"	"ACT_DOTA_OVERRIDE_ABILITY_1"
+				"ThinkInterval"		"%blade_fury_damage_tick"
+				"OnIntervalThink"
+				{
+					"Damage"
+					{
+						"Target"
+						{
+							"Center"		"CASTER"
+							"Radius"		"%blade_fury_radius"
+							"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+						}
+						"Type"			 	"DAMAGE_TYPE_PHYSICAL"
+						"Damage"		 	"%AbilityDamage"
+					}
+					"FireEffect"
+					{
+						"EffectName"			"particles/units/heroes/hero_juggernaut/juggernaut_blade_fury_tgt.vpcf"
+						"EffectAttachType" 		"follow_chest"
+						"Target"
+						{
+							"Center"			"CASTER"
+							"Radius"			"%blade_fury_radius"
+							"Teams"				"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+						}
+					}
+					"FireSound"
+					{
+						"EffectName"		"Hero_Juggernaut.BladeFury.Impact"
+						"Target" 			"CASTER"
+					}	
+					
+				}
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_juggernaut.lua"
+						"Target"		"CASTER"
+						"Function"		"OnBladeFuryStart"
+					}
+				}
+				"OnDestroy"
+				{
+					"FireSound"
+					{
+						"EffectName"		"Hero_Juggernaut.BladeFuryStop"
+						"Target" 			"CASTER"
+					}
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_juggernaut.lua"
+						"Target"		"CASTER"
+						"Function"		"OnBladeFuryStop"
+					}
+				}
+				"States"
+				{
+					"MODIFIER_STATE_MAGIC_IMMUNE"				"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+			"modifier_juggernaut_blade_fury_pull"
+			{
+				"Duration"			"%AbilityDuration"
+				"ThinkInterval"		"0.02"
+				"IsHidden"			"1"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_juggernaut.lua"
+						"Target"		"CASTER"
+						"Function"		"OnBladeFuryCasting"
+					}
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"blade_fury_damage_tick"	"0.2"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"blade_fury_radius"			"250"
+			}
+		}
+	}
+	"juggernaut_wind_blade_imba"
+	{
+		"BaseClass"			"ability_datadriven"
+		"AbilityTextureName"	"juggernaut_healing_ward"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityCastPoint"		"0.1"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_2"
+		"AbilityType"			"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityCooldown"		"115"
+		"AbilityManaCost"		"120"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"		"CASTER"
+				"ModifierName"	"modifier_juggernaut_wind_blade_imba"
+			}
+			"FireEffect"
+			{
+				"EffectName"	"particles/units/heroes/hero_sven/sven_spell_gods_strength.vpcf"
+				"EffectAttachType"	"follow_origin"
+				"Target"			"CASTER"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Ability.Windrunner"
+				"Target" 			"CASTER"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_juggernaut_wind_blade_imba"
+			{
+				"Duration"			"10"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"	"%move_speed_bonus"
+					"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"	"%attack_speed_bonus"
+				}
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"		"particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge.vpcf"
+						"EffectAttachType" 	"follow_chest"
+						"Target" 			"CASTER"
+					}
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"move_speed_bonus"	"20 25 30 45"
+			}
+			"02"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"attack_speed_bonus"	"20 25 30 45"
+			}
+		}
+	}
+	// REGION SNIPER
+	"sniper_headshot_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"sniper_headshot"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"AbilityDamage"					"15 40 65 90"
+		
+		
+		"Modifiers"
+		{
+			"modifier_headshot_passive_imba"
+			{
+				"Passive"					"1"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+						"Target"		"TARGET"
+						"Function"		"OnHeadShotAttackLanded"
+					}
+				}
+				"OnAttackStart"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+						"Target"		"TARGET"
+						"Function"		"OnHeadShotAttackStart"
+					}
+				}
+			}
+			"modifier_headshot_imba"
+			{
+				"Duration"			"%stun_duration"
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"				"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"		"particles/generic_gameplay/generic_stunned.vpcf"
+						"EffectAttachType" 	"follow_overhead"
+						"Target" 			"TARGET"
+					}
+					"Damage"
+					{
+						"Target"		 "TARGET"
+						"Type"			 "DAMAGE_TYPE_PHYSICAL"
+						"Damage"		 "%AbilityDamage"
+					}
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"stun_duration"					"2.0 2.5 3.0 4.0"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"stun_chance"					"8"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"stun_chance_no_vision"			"30"
+			}
+		}
+	}
+	"sniper_take_aim_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"sniper_take_aim"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		
+		"Modifiers"
+		{
+			"modifier_sniper_take_aim_imba"
+			{
+				"Passive"				"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"		"%bonus_attack_range"
+				}
+				"OnAttackLanded"
+				{
+					"Random"
+					{
+						"Chance"				"10"
+						"PseudeoRandom"			"DOTA_PSEUDO_RANDOM_JUGG_CRIT"
+						"OnSuccess"
+						{
+							"TrackingProjectile"
+							{
+								"Dodgeable"			"false"
+								"ProvidesVision"	"false"
+								"VisionRadius"		"0"
+								"EffectName"		"particles/units/heroes/hero_tinker/tinker_missile.vpcf"
+								"MoveSpeed"			"%projectile_speed"
+								"SourceAttachment"	"attack_chest"
+								"Target"			"TARGET"
+							}
+						}
+					}
+				}
+			}
+			"modifier_sniper_imba_missile"
+			{
+				"Duration"				"2.5"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"	"-20"
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"		"-10 -20 -30 -40"
+				}
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"Damage"
+			{
+				"Target"
+				{
+					"Center"		"TARGET"
+					"Radius"		"175"
+					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				}
+				"Type"			 "DAMAGE_TYPE_PHYSICAL"
+				"Damage"		 "%projectile_damage"
+			}
+			"ApplyModifier"
+			{
+				"Target"
+				{
+					"Center"		"TARGET"
+					"Radius"		"175"
+					"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				}
+				"ModifierName"		"modifier_sniper_imba_missile"
+			}
+			"FireEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_gyrocopter/gyro_guided_missile_explosion.vpcf"
+				"EffectAttachType" 	"follow_overhead"
+				"Target"			"TARGET"
+			}		
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"bonus_attack_range"			"150 250 400 600"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"missile_chance"				"8"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"projectile_speed"				"1200"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"projectile_damage"				"100 160 220 280"
+			}
+		}
+	}
+	"sniper_restore_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"sniper_assassinate"//TODO
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityChannelTime"			"10.0"
+		"AbilityCooldown"				"120.0"
+		"MaxLevel"						"1"
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"				"CASTER"
+				"ModifierName"			"modifier_sniper_restore"
+			}
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+				"Target"		"CASTER"
+				"Function"		"OnBuyingBullets"
+			}
+		}
+		"OnChannelSucceeded"
+		{
+			"RemoveModifier"
+			{
+				"Target"				"CASTER"
+				"ModifierName"			"modifier_sniper_restore"
+			}
+		}
+		"OnChannelInterrupted"
+		{
+			"RemoveModifier"
+			{
+				"Target"				"CASTER"
+				"ModifierName"			"modifier_sniper_restore"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_sniper_restore"
+			{
+				"Duration"			"10.0"
+				"ThinkInterval"		"2.0"
+				"OverrideAnimation"	"ACT_DOTA_VICTORY"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+						"Target"		"CASTER"
+						"Function"		"OnBuyingBullets"
+					}
+					"FireSound"
+					{
+						"EffectName"		"Ability.AssassinateLoad"
+						"Target" 			"CASTER"
+					}
+					"FireEffect"
+					{
+						"EffectName"		"particles/units/heroes/hero_tinker/tinker_rockets.vpcf"
+						"EffectAttachType" 	"attach_overhead"
+						"Target" 			"CASTER"
+					}
+				}
+			}
+			"modifier_sniper_bullets"
+			{
+				"IsPurgable"			"0"
+				"ModifierAttributes"	"MODIFIER_ATTRIBUTE_MULTIPLE"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bullet_prize"			"30 60 100"	
+			}
+		}
+	}
+	"sniper_assassinate_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"sniper_assassinate"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"2000 2500 3000"
+		"AbilityCastRangeBuffer"		"600"
+		"AbilityCastPoint"				"0.1"
+		"AbilityCooldown"				"8.0 10.0 12.0"
+		"AbilityDamage"					"355 505 655"
+		"AbilityManaCost"				"175 275 375"
+		"AbilityChannelTime"			"2.0 3.0 4.0"
+
+		"OnAbilityPhaseStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+				"Target"		"CASTER"
+				"Function"		"OnAssassStart"
+			}
+		}
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+				"Target"		"CASTER"
+				"Function"		"OnSniperAssassStartChannel"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Ability.AssassinateLoad"
+				"Target" 			"CASTER"
+			}
+		}
+		"OnChannelSucceeded"
+		{
+			"TrackingProjectile"
+			{
+				"Dodgeable"			"true"
+				"ProvidesVision"	"true"
+				"VisionRadius"		"300"
+				"EffectName"		"particles/units/heroes/hero_sniper/sniper_assassinate.vpcf"
+				"MoveSpeed"			"%projectile_speed"
+				"SourceAttachment"	"attach_attack1"
+				"Target"			"TARGET"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Ability.Assassinate"
+				"Target" 			"CASTER"
+			}
+		}
+		"OnChannelInterrupted"
+		{
+			"TrackingProjectile"
+			{
+				"Dodgeable"			"true"
+				"ProvidesVision"	"true"
+				"VisionRadius"		"300"
+				"EffectName"		"particles/units/heroes/hero_sniper/sniper_assassinate.vpcf"
+				"MoveSpeed"			"%projectile_speed"
+				"SourceAttachment"	"attach_attack1"
+				"Target"			"TARGET"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Ability.Assassinate"
+				"Target" 			"CASTER"
+			}	
+		}
+		"OnProjectileHitUnit"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+				"Target"		"TARGET"
+				"Function"		"OnSniperAssassHitUnit"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"projectile_speed"			"2500 2500 2500"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"tooltip_range"				"2000 2500 3000"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"base_damage"				"250 300 350"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage_increase_per_second"	"20 25 40"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"head_shot_chance"			"2 4 6"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"head_shot_chance_per_second"	"0.4 0.6 1.0"
+			}
+		}
+	}
+	// REGION LUNA
+	"luna_lucent_beam_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"luna_lucent_beam"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"800"
+		"AbilityCastPoint"				"0.6 0.6 0.6 0.6"
+		"AbilityCooldown"				"6.0 6.0 6.0 6.0"
+		"AbilityDamage"					"75 150 225 300"
+		"AbilityManaCost"				"90 100 110 120"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_luna.lua"
+				"Target"		"TARGET"
+				"Function"		"OnLucentBeam"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_luna_lucent_beam_imba"
+			{
+				"IsPurgable"				"0"
+				"IsDebuff"					"1"
+				"Duration"					"10"
+			}
+			"modifier_luna_lucent_beam_imba_attack_bonus"
+			{
+				"Duration"				"10"
+				"Attributes"			"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"	"%aura_bonus_damage"
+				}
+			}
+		}
+
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"stun_duration"			"0.6 0.6 0.6 0.6"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"aura_radius"			"500"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"aura_bonus_damage"		"10 20 30 40"	
+			}
+		}
+	}
+	"luna_lunar_blessing_imba"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"luna_lunar_blessing"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCooldown"		"25 20 15 10"
+		"AbilityManaCost"		"75"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_luna.lua"
+				"Target"		"CASTER"
+				"Function"		"OnLunaBlessingCast"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_luna_blessing_passive_imba"
+			{
+				"Passive"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"		"%damage_bonus_passive"
+				}
+			}
+			"modifier_luna_blessing_per_lucent"
+			{
+				"Duration"		"10"
+				"Attributes"	"MODIFIER_ATTRIBUTE_MULTIPLE"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE"		"%damage_per_lucent"
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_bonus_passive"	"40 50 60 75"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_per_lucent"		"10 15 20 30"
+			}
+		}
+	}
+	"luna_eclipse_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"luna_eclipse"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+
+		"AbilityCastPoint"				"0.6 0.6 0.6"
+		"AbilityCooldown"				"160.0 150.0 140.0"
+		"AbilityManaCost"				"150 200 250"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"				"modifier_luna_eclipse_imba"
+				"Target"					"CASTER"
+			}
+			"FireEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_luna/luna_eclipse_cast.vpcf"
+				"EffectAttachType" 	"follow_origin"
+				"Target" 			"CASTER"
+			}
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_luna.lua"
+				"Target"		"CASTER"
+				"Function"		"OnLunaEclipseStart"
+			}
+
+		}
+		"Modifiers"
+		{
+			"modifier_luna_eclipse_imba"
+			{
+				"Duration"					"10"
+				"ThinkInterval"				"%beam_interval"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_luna.lua"
+						"Target"		"CASTER"
+						"Function"		"OnLunaEclipse"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"675 675 675"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"beam_interval"				"0.6 0.6 0.6"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"beams"						"4 7 10"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"hit_count"					"0 0 0"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration_tooltip"			"1.8 3.6 5.4"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"beams_scepter"				"4 8 12"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"hit_count_scepter"			"4 8 12"
+			}
+			"08"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration_tooltip_scepter"	"1.8 4.2 6.6"
+			}
+		}
+	}
+	//REGION MIRANA
+	"mirana_arrow_imba"
+	{
+		"BaseClass"			"ability_datadriven"
+		"AbilityTextureName"	"mirana_arrow"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"10000"
+		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
+		"AbilityCooldown"				"17.0"
+		"AbilityManaCost"				"100 100 100 100"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilitis/hero_mirana.lua"
+				"Target"		"CASTER"
+				"Function"		"OnMiranaArrowStart"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Hero_Mirana.ArrowCast"
+				"Target" 			"CASTER"
+			}
+			"LinearProjectile"
+			{
+				"EffectName"				"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+				"MoveSpeed"					"%arrow_speed"
+				"StartRadius"				"%arrow_width"
+				"EndRadius"					"%arrow_width"
+				"FixedDistance"				"%arrow_range"
+				"TargetTypes"				"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"    // You can use the constant snippets here...
+				"TargetFlags"				"DOTA_UNIT_TARGET_FLAG_NONE"						
+				"TargetTeams"				"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"StartPosition"				"attach_attack1"
+				"HasFrontalCone"			"1"
+				"ProvidesVision"			"1"
+				"VisionRadius"				"%arrow_vision"
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"				"1"
+			"FireSound"
+			{
+				"EffectName"			"Hero_Mirana.ArrowImpact"
+				"Target"				"TARGET"
+			}
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_mirana.lua"
+				"Target"		"TARGET"
+				"Function"		"OnMiranaArrowHitUnit"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_mirana_arrow_stun"
+			{
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"		"particles/generic_gameplay/generic_stunned.vpcf"
+						"EffectAttachType" 	"follow_overhead"
+						"Target" 			"TARGET"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"arrow_speed"		"857.0"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"arrow_width"		"115"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"arrow_range"		"10000"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"arrow_max_stunrange"	"10000"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"arrow_min_stun"	"0.01"
+			}
+			"06"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"stun_time_increase_per_100"	"0.1 0.15 0.2 0.3"
+			}
+			"07"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"arrow_damage_per_100"			"15 17 19 25"
+			}
+			"08"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"arrow_vision"	"650"
+			}
+		}
+	}
+	"mirana_starfall_imba"
+	{
+		"BaseClass"		"ability_datadriven"
+		"AbilityTextureName"	"mirana_starfall"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
+		"AbilityCooldown"				"12.0 12.0 12.0 12.0"
+		"AbilityDuration"				"10.0 10.0 10.0 10.0"
+		"AbilityDamage"					"75 150 225 300"
+		"AbilityManaCost"				"100 120 140 160"
+		"OnSpellStart"
+		{
+			"FireEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_mirana/mirana_starfall_moonray.vpcf"
+				"EffectAttachType" "follow_origin"
+				"Target" 			"CASTER"
+			}
+			"FireEffect"
+			{
+				"EffectName"		"particles/units/heroes/hero_mirana/mirana_starfall_circle.vpcf"
+				"EffectAttachType" "follow_origin"
+				"Target" 			"CASTER"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Ability.Starfall"
+				"Target" 			"CASTER"
+			}
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_mirana.lua"
+				"Target"		"CASTER"
+				"Function"		"OnStarFallStart"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"starfall_radius"	"625"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"starfall_secondary_radius"	"475"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"starfall_base_damage"	"100 200 300 400"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"starfall_healthdamage_percentage"			"3 6 9 12"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"starfall_secondary_damage_heroes_percentage"			"50"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"starfall_secondary_damage_creeps_percentage"			"150"
+			}
+		}
+	}
+	//REGION AXE
+	"axe_battle_hunger_imba"
+	{
+		"BaseClass"			"ability_datadriven"
+		"AbilityTextureName"	"axe_battle_hunger"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastAnimation"			"ACT_DOTA_OVERRIDE_ABILITY_2"
+
+		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+		"AbilityCooldown"				"20.0 15.0 10.0 5.0"
+		"AbilityDamage"					"75 100 125 150"
+		"AbilityManaCost"				"75 85 95 105"
+		"AbilityCastRange"				"900"
+		"AbilityModifierSupportValue"	"0.1"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"			"TARGET"
+				"ModifierName"		"modifier_axe_battle_hunger_imba"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_axe_battle_hunger_imba"
+			{
+				"IsDebuff"			"1"
+				"IsPurgable"		"0"
+				"Duration"			"%duration"
+				"ThinkInterval"		"0.1"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_axe.lua"
+						"Target"		"TARGET"
+						"Function"		"OnImbaBattleHungerIntervalThink"
+					}
+				}
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_axe.lua"
+						"Target"		"TARGET"
+						"Function"		"OnImbaBattleHungerStart"
+					}
+				}
+				"OnDestory"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_axe.lua"
+						"Target"		"TARGET"
+						"Function"		"OnAxeBattleHungerEnd"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"2.0 2.4 2.8 3.2"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"slow"						"-10"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"speed_bonus"				"10"
+			}
+		}
+	}
+	"axe_counter_helix_imba"
+	{
+		"BaseClass"		"ability_datadriven"
+		"AbilityTextureName"	"axe_counter_helix"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+
+		"Modifiers"
+		{
+			"modifier_axe_counter_helix_imba"
+			{
+				"Passive"				"1"
+				"OnAttacked"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_axe.lua"
+						"Target"		"CASTER"
+						"Function"		"OnCounterHelixAttacked"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"275"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"trigger_chance"			"17"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"chance_per_strength"					"0.017"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage"				"150 175 225 280"
+			}
+		}
+	}
+	"axe_culling_blade_imba"
+	{
+		"BaseClass"			"ability_datadriven"
+		"AbilityTextureName"	"axe_battle_hunger"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"		
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"
+
+		"AbilityCastPoint"				"0.3 0.3 0.3"
+		"AbilityCooldown"				"75.0 65.0 55.0"
+		"AbilityManaCost"				"60 120 180"		
+		"AbilityCastRange"				"150"
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_axe.lua"
+				"Target"		"TARGET"
+				"Function"		"OnCullingBlade"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"kill_threshold"			"300 500 800"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"150 250 300"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"speed_bonus"				"40"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"speed_duration"			"6"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"speed_aoe"					"900"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"cooldown_scepter"			"6.0 6.0 6.0"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"kill_threshold_scepter"	"300 450 625"
+			}
+			"08"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"speed_duration_scepter"	"10"
+			}
+			"09"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"kill_threshold_noob"			"400 500 600"
+			}
+		}
+	}
+}

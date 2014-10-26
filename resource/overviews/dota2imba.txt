@@ -1,0 +1,8 @@
+dota2imba
+{
+	material materials/overviews/dota2imba.vmat
+	pos_x -7072
+	pos_y 7898
+	scale 14.531
+}
+

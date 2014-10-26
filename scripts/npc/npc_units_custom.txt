@@ -1,0 +1,17 @@
+"DOTAUnits"
+{
+	"npc_dummy"
+  	{
+      "model"         "models/development/invisiblebox.vmdl"
+      //"model"         "models/courier/greevil/greevil.vmdl"
+  		"BaseClass"				"npc_dota_creep_neutral"
+		  "Ability1"				"ability_dummy_unit"
+  		"AttackCapabilities"	"DOTA_UNIT_CAP_NO_ATTACK"
+  		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_NONE"
+  		"StatusMana"			"5000"
+  		"VisionDaytimeRange"	"0"
+  		"VisionNighttimeRange"	"0"
+  		"HasInventory"			"0"
+  		"WakesNeutrals"			"0"
+  	}
+}

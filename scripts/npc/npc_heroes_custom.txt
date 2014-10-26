@@ -1,0 +1,48 @@
+"DOTAHeroes"
+{
+	"npc_dota_hero_antimage_imba"
+	{
+		"override_hero"					"npc_dota_hero_antimage"
+		"Ability1"						"antimage_mana_break_imba"
+		"Ability2"						"antimage_blink_imba"
+		"Ability3"						"antimage_spell_shield_imba"
+		"Ability4"						"antimage_mana_void_imba"
+	}
+	"npc_dota_hero_juggernaut_imba"
+	{
+		"override_hero"					"npc_dota_hero_juggernaut"
+		"Ability1"						"juggernaut_blade_fury_imba"
+		"Ability2"						"juggernaut_wind_blade_imba"
+	}
+	"npc_dota_hero_sniper_imba"
+	{
+		"override_hero"					"npc_dota_hero_sniper"
+		"AbilityLayout"					"5"
+		"Ability1"						"sniper_shrapnel"
+		"Ability2"						"sniper_headshot_imba"
+		"Ability3"						"sniper_take_aim_imba"
+		"Ability4"						"sniper_restore_imba"
+		"Ability5"						"sniper_assassinate_imba"
+		"Ability6"						"attribute_bonus"
+	}
+	"npc_dota_hero_luna_imba"
+	{
+		"override_hero"					"npc_dota_hero_luna"
+		"Ability1"						"luna_lucent_beam_imba"
+		"Ability3"						"luna_lunar_blessing_imba"
+		"Ability4"						"luna_eclipse_imba"
+	}
+	"npc_dota_hero_mirana_imba"
+	{
+		"override_hero"					"npc_dota_hero_mirana"
+		"Ability1"						"mirana_starfall_imba"
+		"Ability2"						"mirana_arrow_imba"
+	}
+	"npc_dota_hero_axe_imba"
+	{
+		"override_hero"					"npc_dota_hero_axe"
+		"Ability2"						"axe_battle_hunger_imba"
+		"Ability3"						"axe_counter_helix_imba"
+		"Ability4"						"axe_culling_blade_imba"
+	}
+}
