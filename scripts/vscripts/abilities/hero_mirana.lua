@@ -1,4 +1,5 @@
 require('abilities/ability_generic')
+
 function OnMiranaArrowStart(keys)
 	local caster = keys.caster
 	local caster_origin = caster:GetOrigin()

@@ -1,48 +1,81 @@
 "DOTAHeroes"
 {
-	"npc_dota_hero_antimage_imba"
+	"npc_dota_hero_antimage_imba"//差3技能
 	{
 		"override_hero"					"npc_dota_hero_antimage"
-		"Ability1"						"antimage_mana_break_imba"
-		"Ability2"						"antimage_blink_imba"
-		"Ability3"						"antimage_spell_shield_imba"
-		"Ability4"						"antimage_mana_void_imba"
+		"Ability1"						"antimage_mana_break_imba"//完成
+		"Ability2"						"antimage_blink_imba"//完成
+		"Ability3"						"antimage_spell_shield_imba"//不满意
+		"Ability4"						"antimage_mana_void_imba"//完成
 	}
-	"npc_dota_hero_juggernaut_imba"
+	"npc_dota_hero_juggernaut_imba"//完成
 	{
 		"override_hero"					"npc_dota_hero_juggernaut"
 		"Ability1"						"juggernaut_blade_fury_imba"
 		"Ability2"						"juggernaut_wind_blade_imba"
 	}
-	"npc_dota_hero_sniper_imba"
+	"npc_dota_hero_sniper_imba"//完成
 	{
 		"override_hero"					"npc_dota_hero_sniper"
 		"AbilityLayout"					"5"
-		"Ability1"						"sniper_shrapnel"
+		"Ability1"						"sniper_shrapnel_imba"
 		"Ability2"						"sniper_headshot_imba"
 		"Ability3"						"sniper_take_aim_imba"
 		"Ability4"						"sniper_restore_imba"
 		"Ability5"						"sniper_assassinate_imba"
 		"Ability6"						"attribute_bonus"
 	}
-	"npc_dota_hero_luna_imba"
+	"npc_dota_hero_luna_imba"//完成
 	{
 		"override_hero"					"npc_dota_hero_luna"
 		"Ability1"						"luna_lucent_beam_imba"
 		"Ability3"						"luna_lunar_blessing_imba"
 		"Ability4"						"luna_eclipse_imba"
 	}
-	"npc_dota_hero_mirana_imba"
+	"npc_dota_hero_mirana_imba"//完成
 	{
 		"override_hero"					"npc_dota_hero_mirana"
 		"Ability1"						"mirana_starfall_imba"
 		"Ability2"						"mirana_arrow_imba"
 	}
-	"npc_dota_hero_axe_imba"
+	"npc_dota_hero_axe_imba"//完成，不过2技能不满意的说
 	{
 		"override_hero"					"npc_dota_hero_axe"
-		"Ability2"						"axe_battle_hunger_imba"
+		"Ability2"						"axe_battle_hunger_imba"//未完成
 		"Ability3"						"axe_counter_helix_imba"
 		"Ability4"						"axe_culling_blade_imba"
+	}
+	"npc_dota_hero_storm_spirit_imba"//刚开始，1技能完成
+	{
+		"override_hero"		"npc_dota_hero_storm_spirit"
+		"Ability1"			"storm_spirit_static_remnant_imba"
+
+		"Ability8"			"storm_spirit_static_remnant"
+	}
+	"npc_dota_hero_witch_doctor_imba"//完成
+	{
+		"override_hero"		"npc_dota_hero_witch_doctor"
+		"Ability2"			"witch_doctor_maledict_good_imba"
+		"Ability4"			"witch_doctor_death_ward_imba"
+	}
+	"npc_dota_hero_shadow_shaman_imba"//差3技能
+	{
+		"override_hero"		"npc_dota_hero_shadow_shaman"
+		"Ability1"			"shadow_shaman_ether_shock_imba"
+		"Ability2"			"shadow_shaman_voodoo_imba"
+		"Ability4"			"shadow_shaman_mass_serpent_ward_imba"
+	}
+	"npc_dota_hero_doom_imba"//完成
+	{
+		"override_hero"			"npc_dota_hero_doom_bringer"
+		"Ability1"				"doom_bringer_devour_imba"
+		"Ability6"				"doom_bringer_doom_imba"
+	}
+	"npc_dota_hero_tinker_imba"//差HUD
+	{
+		"override_hero"			"npc_dota_hero_tinker"
+		"Ability1"				"tinker_laser_imba"
+		"Ability3"				"tinker_march_of_the_machines_imba"
+		"Ability4"				"tinker_rearm_imba"
 	}
 }

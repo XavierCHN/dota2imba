@@ -13,10 +13,10 @@
 				"States"
 				{
 					"MODIFIER_STATE_UNSELECTABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_OUT_OF_GAME"		"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NOT_ON_MINIMAP"	   	"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NO_UNIT_COLLISION"	"MODIFIER_STATE_VALUE_ENABLED"
-					"MODIFIER_STATE_INVISIBLE"			"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -165,7 +165,7 @@
 						"Target" 			"CASTER"
 					}
 				}
-				"OnDestroyed"
+				"OnDestroy"
 				{
 					"ApplyModifier"
 					{
@@ -483,6 +483,79 @@
 		}
 	}
 	// REGION SNIPER
+	"sniper_shrapnel_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"sniper_shrapnel"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"1800"
+		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+		"AbilityCooldown"				"15.0 15.0 15.0 15.0"
+		"AbilityDamage"					"12 24 36 48"
+		"AbilityManaCost"				"120 120 120 120"
+		"AOERadius"						"%radius"
+		"AblityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+		"OnSpellStart"
+		{
+			"LinearProjectile"
+			{
+				"Target"
+				{
+					"Center"			"POINT"
+					"ScriptSelectPoints"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities/hero_sniper.lua"
+						"Function"		"GenerateShrapnelPoints"
+						"Radius"		"%radius"
+						"Count"			"10"
+						"Target"		"POINT"
+					}
+				}
+				"EffectName"			"particles/units/heroes/hero_batrider/batrider_flamebreak.vpcf"
+				"MoveSpeed"				"1500"
+				"StartPosition"			"attach_attack1"
+				"StartRadius"			"20"
+				"EndRadius"				"20"
+				"TargetTeams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"TargetTypes"			"DOTA_UNIT_TARGET_HERO"
+				"TargetFlags"			"DOTA_UNIT_TARGET_FLAG_NONE"
+				"HasFrontalCone"		"0"
+				"ProvidesVision"		"0"
+				"VisionRadius"			"0"
+			}
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_sniper.lua"
+				"Target"		"POINT"
+				"Function"		"OnShrapnelStart"
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"		"1"
+			"Damage"
+			{
+				"Target"		 "TARGET"
+				"Type"			 "DAMAGE_TYPE_MAGICAL"
+				"Damage"		 "%shrapnel_damage"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"400"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"shrapnel_damage"			"30 40 50 65"
+			}
+		}
+	}
 	"sniper_headshot_imba"
 	{
 		"BaseClass"						"ability_datadriven"
@@ -1301,7 +1374,7 @@
 				"IsDebuff"			"1"
 				"IsPurgable"		"0"
 				"Duration"			"%duration"
-				"ThinkInterval"		"0.1"
+				"ThinkInterval"		"1.0"
 				"OnIntervalThink"
 				{
 					"RunScript"
@@ -1311,22 +1384,17 @@
 						"Function"		"OnImbaBattleHungerIntervalThink"
 					}
 				}
+				"States"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT"			"%slow"
+				}
 				"OnCreated"
 				{
-					"RunScript"
+					"AttachEffect"
 					{
-						"ScriptFile" 	"scripts/vscripts/abilities/hero_axe.lua"
-						"Target"		"TARGET"
-						"Function"		"OnImbaBattleHungerStart"
-					}
-				}
-				"OnDestory"
-				{
-					"RunScript"
-					{
-						"ScriptFile" 	"scripts/vscripts/abilities/hero_axe.lua"
-						"Target"		"TARGET"
-						"Function"		"OnAxeBattleHungerEnd"
+						"EffectName"			"particles/units/heroes/hero_axe/axe_battle_hunger.vpcf"
+						"EffectAttachType" 		"follow_overhead"
+						"Target" 				"TARGET"
 					}
 				}
 			}
@@ -1337,17 +1405,22 @@
 			"01"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"duration"					"2.0 2.4 2.8 3.2"
+				"duration"					"10 20 30 40"
 			}
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"slow"						"-10"
+				"slow"						"-30"
 			}
 			"03"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"speed_bonus"				"10"
+				"damage_base"				"5 10 15 20"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage_percentage"			"2 4 6 8"
 			}
 		}
 	}
@@ -1461,7 +1534,7 @@
 			"07"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"kill_threshold_scepter"	"300 450 625"
+				"kill_threshold_scepter"	"400 600 1000"
 			}
 			"08"
 			{
@@ -1472,6 +1545,752 @@
 			{
 				"var_type"						"FIELD_INTEGER"
 				"kill_threshold_noob"			"400 500 600"
+			}
+		}
+	}
+	//REGION STORM
+	"storm_spirit_static_remnant_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"storm_spirit_static_remnant"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastPoint"				"0 0 0 0"
+		"AbilityCooldown"				"3.5"
+		"AbilityDuration"				"12.0 12.0 12.0 12.0"
+		"AbilityManaCost"				"70 80 90 100"
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_storm.lua"
+				"Target"		"CASTER"
+				"Function"		"OnRemantStart"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"static_remnant_radius"		"235"		
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"static_remnant_damage_radius"	"260"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"static_remnant_delay"		"1.0"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"static_remnant_damage"			"140 180 220 260"
+			}
+		}
+	}
+	//REGION WITCHDOCTOR
+	"witch_doctor_maledict_good_imba"
+	{
+		"BaseClass"					"ability_datadriven"
+		"AbilityTextureName"			"witch_doctor_maledict_good"
+		"AOERadius"						"%radius"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCastRange"				"800"
+		"AbilityCastPoint"				"0.35 0.35 0.35 0.35"
+		"AbilityCooldown"				"20.0"
+		"AbilityManaCost"				"120 120 120 120"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_witchdoctor.lua"
+				"Target"		"POINT"
+				"Function"		"OnMaledictGoodCast"
+			}
+			"ApplyModifier"
+			{
+				"Target"
+				{
+					"Center"		"CASTER"
+					"Types"			"DOTA_UNIT_TARGET_HERO"
+					"Teams"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					"Radius"		"%radius"
+				}
+				"ModifierName"		"modifier_witch_doctor_maledict_good"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_witch_doctor_maledict_good"
+			{
+				"Duration"					"%duration"
+				"ThinkInterval"				"%interval"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_witchdoctor.lua"
+						"Target"		"CASTER"
+						"Function"		"OnMaledictGoodIntervalThink"
+					}
+					"FireEffect"
+					{
+						"EffectName"		"particles/items2_fx/urn_of_shadows_heal_d.vpcf"
+						"EffectAttachType" 	"follow_chest"
+						"Target" 			"TARGET"
+					}	
+				}
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"		"particles/units/heroes/hero_witchdoctor/witchdoctor_voodoo_restoration_heal.vpcf"
+						"EffectAttachType" 	"follow_overhead"
+						"Target" 			"TARGET"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"heal_base"					"30 50 70 90"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"heal_per_100_damage"		"10 20 30 40"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"500"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"interval"						"3"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"duration"					"12"
+			}
+		}
+	}
+	"witch_doctor_death_ward_imba"
+	{
+		"BaseClass"		"ability_datadriven"
+		"AbilityTextureName"	"witch_doctor_death_ward"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCastRange"				"600"
+		"AbilityCastPoint"				"0.35 0.35 0.35"
+
+		"AbilityCooldown"				"80.0"
+		"AbilityChannelTime"			"8.0 8.0 8.0"
+		"AbilityManaCost"				"200 200 200"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_witchdoctor.lua"
+				"Target"		"POINT"
+				"Function"		"OnDeathWardCast"
+			}
+		}
+
+		"OnChannelInterrupted"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_witchdoctor.lua"
+				"Target"		"CASTER"
+				"Function"		"OnDeathWardInterrupted"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"60 90 120"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bounces"					"0 0 1"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage_scepter"			"90 120 150"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"scepter_bounces"			"4 4 4"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bounce_radius"				"650 650 650"
+			}
+		}
+	}
+	//REGION SHADOWSHAMAN
+	"shadow_shaman_shackles_imba"
+	{
+
+	}
+	"shadow_shaman_ether_shock_imba"
+	{
+
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"shadow_shaman_ether_shock"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"600"
+		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+		"AbilityCooldown"				"8.0 8.0 8.0 8.0"
+		"AbilityManaCost"				"95 105 135 160"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_shadowshaman.lua"
+				"Target"		"TARGET"
+				"Function"		"OnEtherShockStart"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"start_radius"				"200 200 200 200"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"end_radius"				"300 300 300 300"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"end_distance"				"500 500 500 500"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"targets"					"1 3 5 7"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"140 200 260 320"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"300 300 350 400"
+			}
+		}
+	}
+	"shadow_shaman_voodoo_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"shadow_shaman_voodoo"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange"				"500"
+		"AbilityCastPoint"				"0 0 0 0"
+		"AbilityCooldown"				"13.0 13.0 13.0 13.0"
+		"AbilityManaCost"				"110 140 170 200"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_shadowshaman.lua"
+				"Target"		"TARGET"
+				"Function"		"OnVoodooStart"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"movespeed"					"100"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"duration"					"1.25 2.0 2.75 3.5"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"300 300 350 400"
+			}
+		}
+
+	}
+	"shadow_shaman_mass_serpent_ward_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"shadow_shaman_mass_serpent_ward"
+
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"550"
+		"AbilityCastPoint"				"0.3"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"110"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"200 350 600"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_shadowshaman.lua"
+				"Target"		"POINT"
+				"Function"		"OnWardCast"
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"ward_count"		"10"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"full_splash_radius"	"50 75 85"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"mid_splash_radius"		"75 100 110"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"min_splash_radius"		"150 200 220"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_min"			"40 55 70"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_max"			"45 60 75"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"45.0 45.0 45.0"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_min_scepter"	"85 105 125"
+			}
+			"09"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_max_scepter"	"90 110 130"
+			}
+		}
+	}
+	"shaman_ward_imba"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"Modifiers"
+		{
+			"modifeir_shaman_ward_imba"
+			{
+				"Passive"				"1"
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_shadowshaman.lua"
+						"Target"		"CASTER"
+						"Function"		"OnWardAttackLanded"
+					}
+				}
+			}	
+		}
+	}
+	"shaman_ward_life_time"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"Modifiers"
+		{
+			"modifier_life_time"
+			{
+				"OnDestroy"
+				{
+					"RemoveUnit"
+					{
+						"Target" "CASTER"
+					}
+				}
+			}	
+		}
+	}
+	//REGION DOOM
+	"doom_bringer_devour_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"doom_bringer_devour"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY | DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastPoint"				"0.3 0.3 0.3 0.3"
+		"AbilityCastRange"				"300 300 300 300"
+		"AbilityCooldown"				"70.0 60.0 50.0 40.0"
+		"AbilityManaCost"				"60"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_doom.lua"
+				"Target"		"TARGET"
+				"Function"		"OnDevourCast"
+			}
+			"FireEffect"
+			{
+				"Target" "TARGET"
+				"ControlPointEntities"
+				{
+					"TARGET"		"attach_hitloc"
+					"CASTER"		"attach_mouth"
+				}
+				"EffectName"		"particles/units/heroes/hero_doom_bringer/doom_bringer_devour.vpcf"
+				"EffectAttachType"	"start_at_customorigin"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Hero_DoomBringer.Devour"
+				"Target"			"TARGET"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_gold"			"35 60 80 130"
+			}
+		}
+	}
+	"doom_bringer_doom_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"doom_bringer_doom"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCastPoint"				"0.3 0.3 0.3"
+		"AbilityCastRange"				"550 550 550"
+		"AbilityCooldown"				"100.0"
+		"AbilityManaCost"				"150 200 250"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_doom.lua"
+				"Target"		"TARGET"
+				"Function"		"OnDoomCast"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"15.0"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage"				"30 50 70"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration_scepter"		"16.0 16.0 16.0"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_scepter"		"50 80 110"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"deniable_pct"			"25 25 25"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"500"
+			}
+		}
+	}
+	//REGION TINKER
+	"tinker_laser_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"tinker_laser"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PURE"	
+		"AbilityCastRange"				"550"
+		"AbilityCastPoint"				"0.53 0.53 0.53 0.53"
+		"AbilityCooldown"				"14.0 14.0 14.0 14.0"
+		"AbilityDamage"					"80 160 240 320"
+		"AbilityManaCost"				"95 120 145 170"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_tinker.lua"
+				"Target"		"TARGET"
+				"Function"		"OnLaserCasted"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"			"modifier_hero_count_down"
+				"Target"				"TARGET"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_hero_count_down"
+			{
+				"IsPurgable"		"0"
+				"Duration"			"%duration_hero"
+				"IsHidden"			"0"//TODO 1
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_tinker.lua"
+						"Target"		"TARGET"
+						"Function"		"OnLaserModifierDestroy"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration_hero"			"3.0 3.0 3.0 3.0"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration_creep"		"6.0 6.0 6.0 6.0"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"miss_rate"				"100 100 100 100"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed"					"900 900 900 900"
+			}
+		}
+	}
+	"tinker_march_of_the_machines_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"tinker_march_of_the_machines"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_3"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"300"
+		"AbilityCastPoint"				"0.53 0.53 0.53 0.53"
+		"AbilityCooldown"				"35.0 35.0 35.0 35.0"
+		"AbilityDamage"					"16 24 32 40"
+		"AbilityManaCost"				"145 150 165 190"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_tinker.lua"
+				"Target"		"POINT"
+				"Function"		"OnMarchStart"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"900 900 900 900"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"collision_radius"		"50 50 50 50"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"splash_radius"			"150 150 150 150"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"6.0 6.0 6.0 6.0"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed"					"400 400 400 400"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"machines_per_sec"		"24 24 24 24"
+			}
+		}
+	}
+	"tinker_rearm_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"tinker_rearm"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityCastPoint"				"0.53 0.53 0.53 0.53"
+		"AbilityChannelTime"			"3.0 2.0 1.0"
+		"AbilityCooldown"				"0.0 0.0 0.0"
+		"AbilityManaCost"				"150 250 350"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{		
+				"Target"			"CASTER"
+				"ModifierName"		"modifier_tinker_rearm_imba"
+			}
+		}
+
+
+		"OnChannelSucceeded"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_tinker.lua"
+				"Target"		"CASTER"
+				"Function"		"OnRearmFinished"
+			}
+			"FireSound"
+			{
+				"EffectName"		"Hero_Tinker.RearmStart"
+				"Target" 			"CASTER"
+			}
+		}
+
+		"Moddifiers"
+		{
+			"modifier_tinker_rearm_imba"
+			{
+				"Duration"				"%channel_tooltip"
+				"IsPurgable"			"0"
+				"IsHidden"				"1"
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"			"particles/units/heroes/hero_tinker/tinker_rearm.vpcf"
+						"EffectAttachType" 		"attach_attack1"
+						"Target" 				"CASTER"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"channel_tooltip"			"3 2 1"
 			}
 		}
 	}

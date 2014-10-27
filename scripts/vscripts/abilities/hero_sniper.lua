@@ -1,3 +1,53 @@
+require('abilities/ability_generic')
+
+if AbilityCore.npc_dota_hero_sniper == nil then
+	AbilityCore.npc_dota_hero_sniper = class({})
+end
+
+function AbilityCore.npc_dota_hero_sniper:LearnAbilityHandler(keys)
+	local player = EntIndexToHScript(keys.player)
+	print(player)
+	if not player then return end
+
+	local hero = player:GetAssignedHero()
+	if hero then
+		local ability_name = keys.abilityname
+		if ability_name == "sniper_assassinate_imba" then
+			local ABILITY = hero:FindAbilityByName('sniper_restore_imba')
+			if ABILITY then
+				print("ABILITY FOUND SNIPER RESTORE IMBA")
+				ABILITY:SetLevel(1)
+			end
+		end
+	end
+end
+
+function GenerateShrapnelPoints( keys)
+	local radius = keys.Radius or 400
+	local count = keys.Count or 10
+
+	local caster = keys.caster
+	local caster_fv = caster:GetForwardVector()
+	local caster_origin = caster:GetOrigin()
+	local center = caster_origin + caster_fv * 2000
+
+	local result = {}
+	for i = 1, count do
+		local random = RandomFloat(0, radius)
+		local vec = center + RandomVector(random)
+		table.insert(result,vec)
+	end
+	return result
+end
+
+function OnShrapnelStart(keys)
+	local caster = keys.caster
+	local point = keys.target_points[1]
+	local ability = keys.ability
+	if not ( caster and point and ability ) then return end
+	CreateDummyAndCastAbilityAtPosition(caster, "sniper_shrapnel", ability:GetLevel(), point, 30, false)
+end
+
 function OnHeadShotAttackStart(keys)
 	print("[SNIPER:] OnHeadShotAttackStart ->")
 
@@ -53,6 +103,7 @@ function OnAssassStart(keys)
 	local bullets_count = caster:GetModifierStackCount("modifier_sniper_bullets",ability_restore)
 	-- 如果没有子弹了，停止
 	if bullets_count == nil or bullets_count <= 0 then
+		FireGameEvent( 'custom_error_show', { player_ID = caster:GetPlayerID(), _error = "#sniper_hava_no_bullet" } )
 		caster:Stop() 
 		return
 	end
@@ -122,6 +173,9 @@ function OnSniperAssassHitUnit(keys)
 			damage_flags = 0,
 			ability = ability
 		})
+		
+		ScreenShake(target:GetOrigin(), 20, 0.1, 1, 1000, 0, true)
+
 		DebugDrawText(target:GetOrigin() + Vector(0,0,150),"#sniper_head_shot",true,2)
 		FireGameEvent("show_center_message", {message = "HEAD SHOT!", duration = 2})
 	end
@@ -147,6 +201,10 @@ function OnBuyingBullets(keys)
 		caster:SetModifierStackCount("modifier_sniper_bullets",keys.ability,1)
 	else
 		local bullets_count = caster:GetModifierStackCount("modifier_sniper_bullets",keys.ability)
+		if bullets_count >= 10 then
+			caster:Stop()
+			FireGameEvent( 'custom_error_show', { player_ID = caster:GetPlayerID(), _error = "#sniper_bullets_full" } )
+		end
 		local bullet_prize = ability:GetSpecialValueFor("bullet_prize")
 		if caster:GetGold()	>= bullet_prize then
 			bullets_count = math.min(bullets_count + 1,10)
@@ -155,12 +213,9 @@ function OnBuyingBullets(keys)
 			caster:SetModifierStackCount("modifier_sniper_bullets",keys.ability,bullets_count)
 		else
 			caster:Stop()
+			FireGameEvent( 'custom_error_show', { player_ID = caster:GetPlayerID(), _error = "#sniper_not_enough_gold_for_bullets" } )
 		end
 	end
 	
 	print(" ->[SNIPER:] OnBuyingBullets")
-end
-
-function OnTakeAimHit(keys)
-	print("TAKE AIM SUCCESS!!!!!")
 end

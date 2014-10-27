@@ -9,6 +9,37 @@ function AbilityCore:Init()
 	self._vHeroes = {}
 end
 
+function AbilityCore:OnPlayerCastAbility(keys)
+	DeepPrintTable(keys)
+	local player_id = keys.PlayerID
+	local player = PlayerResource:GetPlayer(player_id)
+	if not player then return end
+	local hero = player:GetAssignedHero()
+	if hero then
+		local hero_name = hero:GetUnitName()
+		local ability_name = keys.abilityname
+		if self[hero_name] and self[hero_name].abilityname then
+			self[hero_name]:AbilityHandler(keys)
+		end
+	end
+end
+
+-- 用来在英雄学习某个技能的时候做出对应操作
+require('abilities/hero_juggernaut') -- 监听疾风剑客击杀英雄事件
+require('abilities/hero_sniper') -- 监听学习大招事件，来给火枪手设置购买子弹的技能等级
+function AbilityCore:OnPlayerLearnedAbility(keys)
+	local player = EntIndexToHScript(keys.player)
+	if not player then return end
+	local hero = player:GetAssignedHero()
+	if hero then
+		local hero_name = hero:GetUnitName()
+		if self[hero_name] then
+			self[hero_name]:LearnAbilityHandler(keys)
+		end
+	end
+end
+
+
 function AbilityCore:RegisterHeroes(keys)
 	DeepPrint(keys)
 	local nNewState = GameRules:State_Get()	
@@ -33,7 +64,6 @@ function AbilityCore:RegisterHeroes(keys)
 							return 1
 						end,
 					1)
-
 				else
 					self._vHeroes[i] = hHero
 					GameRules.ImbaGameMode._vHeroes = self._vHeroes
@@ -41,95 +71,4 @@ function AbilityCore:RegisterHeroes(keys)
 			end
 		end
 	end
-end
-
-function AbilityCore:OnPlayerCastAbility(keys)
-	DeepPrint(keys)
-	local sAbilityName = keys.abilityname
-	local nPlayerID = keys.PlayerID
-
-end
-
-function AbilityCore:OnPlayerLearnedAbility(keys)
-	for k,v in pairs(keys) do
-		print(k,v)
-	end
-	local player = EntIndexToHScript(keys.player)
-	print(player)
-	if not player then return end
-
-	local hero = player:GetAssignedHero()
-	if hero then
-		local hero_name = hero:GetUnitName()
-		if self[hero_name] then
-			self[hero_name]:RegistAbility(keys)
-		end
-	end
-end
-
-if AbilityCore.npc_dota_hero_antimage == nil then
-	AbilityCore.npc_dota_hero_antimage = class({})
-end
-if AbilityCore.npc_dota_hero_sniper == nil then
-	AbilityCore.npc_dota_hero_sniper = class({})
-end
-if AbilityCore.npc_dota_hero_juggernaut == nil then
-	AbilityCore.npc_dota_hero_juggernaut = class({})
-	--modifier_juggernaut_wind_blade_imba
-end
-function AbilityCore.npc_dota_hero_antimage:RegistAbility(keys)
-	local player = EntIndexToHScript(keys.player)
-	print(player)
-	if not player then return end
-
-	local hero = player:GetAssignedHero()
-	if hero then
-		local ability_name = keys.abilityname
-		if ability_name == "antimage_spell_shield" then
-		end
-	end
-end
-
-function AbilityCore.npc_dota_hero_sniper:RegistAbility(keys)
-	local player = EntIndexToHScript(keys.player)
-	print(player)
-	if not player then return end
-
-	local hero = player:GetAssignedHero()
-	if hero then
-		local ability_name = keys.abilityname
-		if ability_name == "sniper_assassinate_imba" then
-			local ABILITY = hero:FindAbilityByName('sniper_restore_imba')
-			if ABILITY then
-				print("ABILITY FOUND SNIPER RESTORE IMBA")
-				ABILITY:SetLevel(1)
-			end
-		end
-	end
-end
-
-function AbilityCore.npc_dota_hero_juggernaut:RegistAbility(keys)
-	local player = EntIndexToHScript(keys.player)
-	print(player)
-	if not player then return end
-	self._hero = player:GetAssignedHero()
-	local hero = player:GetAssignedHero()
-	if hero then
-		local ability_name = keys.abilityname
-		if ability_name == "juggernaut_wind_blade_imba" then
-			ListenToGameEvent("entity_killed",Dynamic_Wrap(AbilityCore.npc_dota_hero_juggernaut, "OnJuggKilledEntity"),self)
-		end
-	end
-end
-function AbilityCore.npc_dota_hero_juggernaut:OnJuggKilledEntity(keys)
-	local caster = EntIndexToHScript(keys.entindex_attacker)
-	if caster ~= self._hero then return end
-	local target = EntIndexToHScript(keys.entindex_killed)
-	if not target then return end
-	if not target:IsRealHero() then return end
-	if not caster:HasModifier("modifier_juggernaut_wind_blade_imba") then return end
-	local ability_blade_fury = caster:FindAbilityByName("juggernaut_blade_fury_imba")
-	local ability_wind_blade = caster:FindAbilityByName("juggernaut_wind_blade_imba")
-	ability_blade_fury:EndCooldown()
-	ability_wind_blade:EndCooldown()
 end

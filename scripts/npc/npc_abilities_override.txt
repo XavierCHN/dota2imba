@@ -1,31 +1,5 @@
 "DOTAAbilities"
 {
-	"axe_battle_hunger"
-	{
-		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
-		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
-		"AbilityDamage"					"75 100 125 150"
-		"AbilityManaCost"				"0 0 0 0"		
-		"AbilityCastRange"				"9999"
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"duration"					"2.0 2.4 2.8 3.2"
-			}
-			"02"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"slow"						"-10"
-			}
-			"03"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"speed_bonus"						"10"
-			}
-		}		
-	}
 	"axe_berserkers_call"
 	{
 		"AbilitySpecial"
@@ -102,6 +76,9 @@
 	}	
 	"sniper_shrapnel"
 	{
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
+		"AbilityManaCost"				"0 0 0 0"
 		"AbilitySpecial"
 		{
 			"01"
@@ -246,5 +223,306 @@
 				"omni_slash_jumps_scepter"		"20 25 30"
 			}
 		}
+	}
+	"storm_spirit_static_remnant"
+	{
+		"AbilityCastPoint"				"0 0 0 0"
+		"AbilityCooldown"				"0.0"
+		"AbilityManaCost"				"0 0 0 0"
+	}
+	"witch_doctor_paralyzing_cask"
+	{
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"hero_duration"			"1.0 1.0 1.0 1.0"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"creep_duration"		"5.0 5.0 5.0 5.0"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"hero_damage"			"50 50 50 50"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bounce_range"			"575 575 575 575"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bounces"				"12 20 28 36"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed"					"1000"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"bounce_delay"			"0.3"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bounces_tooltip"				"2 4 6 8"
+			}
+		}
+	}
+	"witch_doctor_maledict"
+	{
+		"AbilityCastRange"				"800"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_damage"				"16 24 32 40"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bonus_damage_threshold"	"100"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"radius"					"500"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"ticks"						"3"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"duration_tooltip"			"12"
+			}
+		}
+	}
+	"witch_doctor_death_ward"
+	{
+		"AbilityCastRange"				"9999"
+		"AbilityCastPoint"				"0.0 0.0 0.0"
+		"AbilityCooldown"				"0.0"
+		"AbilityChannelTime"			"8.0 8.0 8.0"
+		"AbilityManaCost"				"200 200 200"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage"					"60 90 120"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bounces"					"0 0 1"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"damage_scepter"			"90 120 150"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"scepter_bounces"			"4 4 4"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"bounce_radius"				"650 650 650"
+			}
+		}
+	}
+	"doom_bringer_scorched_earth"
+	{
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_per_second"		"24 36 48 60"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"600 600 600 600"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_movement_speed_pct"	"32 32 32 32"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"10.0 12.0 14.0 16.0"
+			}
+		}
+	}
+	"doom_bringer_lvl_death"
+	{
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage"				"125 175 225 275"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"lvl_bonus_damage"		"200"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"lvl_bonus_multiple"	"6 5 4 3"
+			}
+		}
+	}
+	"doom_bringer_doom"
+	{
+		"ID"							"5342"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_NOT_ANCIENTS"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCastPoint"				"0.0 0.0 0.0"
+		"AbilityCastRange"				"9999 9999 9999"
+		"AbilityCooldown"				"0.0"
+		"AbilityManaCost"				"0 0 0"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"15.0"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage"				"30 50 70"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration_scepter"		"16.0 16.0 16.0"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"damage_scepter"		"50 80 110"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"deniable_pct"			"25 25 25"
+			}
+		}
+	}
+	"tinker_laser"
+	{
+		"AbilityCastRange"				"9999"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
+		"AbilityManaCost"				"0 0 0 0"
+	}
+	"tinker_heat_seeking_missile"
+	{
+		"AbilitySpecial"
+		{ 
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"2500 2500 2500 2500"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"targets"			"2 3 4 5"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"speed"				"900 900 900 900"
+			}
+		}
+	}
+	"tinker_march_of_the_machines"
+	{
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastRange"				"2000"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
+		"AbilityDamage"					"16 24 32 40"
+		"AbilityManaCost"				"0 0 0 0"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"900 900 900 900"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"collision_radius"		"50 50 50 50"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"splash_radius"			"150 150 150 150"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"6.0 6.0 6.0 6.0"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed"					"400 400 400 400"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"machines_per_sec"		"24 24 24 24"
+			}
+		}
+	}
+	"shadow_shaman_ether_shock"
+	{
+		"AbilityCastRange"				"9999"
+		"AbilityCastPoint"				"0 0 0 0"
+		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
+		"AbilityManaCost"				"0 0 0 0"
+	}
+	"shadow_shaman_voodoo"
+	{
+		"AbilityCastRange"				"9999"
+		"AbilityCastPoint"				"0 0 0 0"
+		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
+		"AbilityManaCost"				"0 0 0 0"
+	}
+	"shadow_shaman_shackles"
+	{
+		"AbilityCastRange"				"9999"
+		"AbilityCastPoint"				"0 0 0 0"
+		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
+		"AbilityManaCost"				"0 0 0 0"
 	}
 }

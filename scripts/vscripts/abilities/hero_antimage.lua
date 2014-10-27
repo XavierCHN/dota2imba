@@ -46,6 +46,7 @@ function OnManaBreakAttackLanded(keys)
 	target:EmitSound("Hero_Antimage.ManaBreak")
 	FireEffectAndRelease("particles/generic_gameplay/generic_manaburn.vpcf", target , target:GetOrigin())
 end
+
 function OnAntiMageBlink(keys)
 	-- 施法者
 	local caster = keys.caster
@@ -93,8 +94,7 @@ function OnAntiMageBlink(keys)
 		mana_void_duration)
 	end
 end
---[[
-每次攻击都能触发法力虚空，对目标造成伤害和减速，目标每损失10%法力值就额外对其造成0.6%、0.9%、1.2%最大生命值的伤害以及1.5秒4%、6%、8%的减速效果，当目标的法力值低于1%时，可以额外造成0.1、0.2、0.3秒的眩晕。]]
+
 function OnManaVoidCasted(keys)
 	-- 施法者
 	local caster = keys.caster
@@ -114,23 +114,11 @@ function OnManaVoidCasted(keys)
 			FindClearSpaceForUnit(hero, target:GetOrigin(), false)
 		end
 	end
+	-- 创建马甲并释放技能
+	CreateDummyAndCastAbilityOnTarget(caster, "antimage_mana_void", ability:GetLevel(), target, 1, false)
 
-	local damage_radius = ability:GetLevelSpecialValueFor('damage_radius', ability:GetLevel() -1)
-	local mana_to_damage = target:GetMaxMana() - target:GetMana()
-	local damage_ratio = ability:GetLevelSpecialValueFor('damage_ratio', ability:GetLevel() -1)
-	local damage_to_deal = mana_to_damage * damage_ratio
-	local enemy_heroes = FindUnitsInRadius(caster:GetTeam(), target:GetOrigin(), nil, damage_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
-	for _, unit in pairs(enemy_heroes) do
-		local damage_dealt = ApplyDamage({
-			victim = unit,
-			attacker = caster,
-			damage = damage_to_deal,
-			damage_type = DAMAGE_TYPE_PHYSICAL,
-			damage_flags = 0,
-			ability = ability
-		})
-	end
-	target:EmitSound("Hero_Antimage.ManaVoid")
+	ScreenShake(target:GetOrigin(), 20, 0.1, 1, 1000, 0, true)
+
 end
 function OnManaVoidAttackLanded(keys)
 	print("[ANTIMAGE:] ON MANA VOID ATTACK LANDED -> CALLED")
@@ -144,19 +132,21 @@ function OnManaVoidAttackLanded(keys)
 	if not (target:IsRealHero()) then return end
 	if target:GetTeam() == caster:GetTeam() then return end
 	if target:GetPrimaryAttribute()	~= 2 then return end -- 如果对方不是智力型英雄，就不做啥
-	print(target:GetPrimaryAttribute())
-	print("[ANTIMAGE:] ON MANA VOID ATTACK LANDED -> GOOD ENEMY")
-	local mana_to_damage = target:GetMaxMana() - target:GetMana()
-	local damage_ratio = ability:GetLevelSpecialValueFor('damage_ratio', ability:GetLevel() -1)
-	local damage_to_deal = mana_to_damage * damage_ratio
-	local damage_dealt = ApplyDamage({
-		victim = target,
-		attacker = caster,
-		damage = damage_to_deal,
-		damage_type = DAMAGE_TYPE_PHYSICAL,
-		damage_flags = 0,
-		ability = ability
-	})
-	target:EmitSound("Hero_Antimage.ManaVoid")
-	FireEffectAndRelease("particles/units/heroes/hero_antimage/antimage_manavoid.vpcf", target, target:GetOrigin() + Vector(0,0,150))
+	
+	-- 创建马甲并释放技能
+	CreateDummyAndCastAbilityOnTarget(caster, "antimage_mana_void", ability:GetLevel(), target, 1, false)
+	
+	-- local mana_to_damage = target:GetMaxMana() - target:GetMana()
+	-- local damage_ratio = ability:GetLevelSpecialValueFor('damage_ratio', ability:GetLevel() -1)
+	-- local damage_to_deal = mana_to_damage * damage_ratio
+	-- local damage_dealt = ApplyDamage({
+	-- 	victim = target,
+	-- 	attacker = caster,
+	-- 	damage = damage_to_deal,
+	-- 	damage_type = DAMAGE_TYPE_PHYSICAL,
+	-- 	damage_flags = 0,
+	-- 	ability = ability
+	-- })
+	-- target:EmitSound("Hero_Antimage.ManaVoid")
+	-- FireEffectAndRelease("particles/units/heroes/hero_antimage/antimage_manavoid.vpcf", target, target:GetOrigin() + Vector(0,0,150))
 end
