@@ -1,7 +1,8 @@
 -- doom_bringer_devour
 -- doom_bringer_doom
 require('abilities/ability_generic')
-
+-- 吞噬 —— 释放
+-- 作废
 function OnDevourCast(keys)
 	local caster = keys.caster
 	local ability = keys.ability
@@ -99,6 +100,8 @@ function OnDevourCast(keys)
 	end
 end
 
+-- 末日 —— 释放
+-- 
 function OnDoomCast(keys)
 	local caster = keys.caster
 	local ability = keys.ability

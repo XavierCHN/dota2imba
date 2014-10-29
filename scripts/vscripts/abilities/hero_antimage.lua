@@ -1,5 +1,7 @@
 require("abilities/ability_generic")
 
+-- 法力损毁 —— 攻击到位
+--
 function OnManaBreakAttackLanded(keys)
 	print("[ANTIMAGE:] ON IMBA MANA BREAK ATTACK LANDED")
 	-- 施法者
@@ -47,6 +49,8 @@ function OnManaBreakAttackLanded(keys)
 	FireEffectAndRelease("particles/generic_gameplay/generic_manaburn.vpcf", target , target:GetOrigin())
 end
 
+-- 闪烁 —— 释放
+-- 
 function OnAntiMageBlink(keys)
 	-- 施法者
 	local caster = keys.caster
@@ -95,6 +99,8 @@ function OnAntiMageBlink(keys)
 	end
 end
 
+-- 法力虚空 —— 释放
+-- 
 function OnManaVoidCasted(keys)
 	-- 施法者
 	local caster = keys.caster
@@ -120,6 +126,9 @@ function OnManaVoidCasted(keys)
 	ScreenShake(target:GetOrigin(), 20, 0.1, 1, 1000, 0, true)
 
 end
+
+-- 法力虚空 —— 被动攻击
+-- 
 function OnManaVoidAttackLanded(keys)
 	print("[ANTIMAGE:] ON MANA VOID ATTACK LANDED -> CALLED")
 	-- 施法者

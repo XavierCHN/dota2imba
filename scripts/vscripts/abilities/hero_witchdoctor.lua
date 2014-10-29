@@ -1,20 +1,29 @@
+require('abilities/ability_generic')
+
+-- 生咒 —— 施法
+-- 
 function OnMaledictGoodCast(keys)
 	local caster = keys.caster
 	local ability = keys.ability
 	local point = keys.target_points[1]
 	if not (caster and ability and point) then return end
-
+	
+	-- 技能的影响范围
 	local radius = ability:GetLevelSpecialValueFor("radius", ability:GetLevel() -1)
+	
+	-- 获取范围内的友方单位
 	local friends = FindUnitsInRadius(caster:GetTeam(), caster:GetOrigin(), nil, radius, DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
-
+	
+	-- 将这些单位储存到table中
 	GameRules._WitchDoctorMaledictFriendHeroes = friends
 
+	-- 保存释放该技能的时候的生命值
 	for _, hero in pairs(friends) do
 		local health = hero:GetHealth()
 		hero:SetContext("health_orignal",tostring(health),0)
 	end
 
-
+	-- 播放粒子特效
 	local p_index = ParticleManager:CreateParticle("particles/units/heroes/hero_witchdoctor/witchdoctor_maledict_good.vpcf", PATTACH_CUSTOMORIGIN, caster)
 	ParticleManager:SetParticleControl(p_index, 0, point)
 	caster:SetContextThink(DoUniqueString("release_particle"),function()
@@ -22,6 +31,8 @@ function OnMaledictGoodCast(keys)
 		ParticleManager:ReleaseParticleIndex(p_index)
 	end,1.0)
 end
+-- 生咒 —— 计时
+-- 
 function OnMaledictGoodIntervalThink(keys)
 	local caster = keys.caster
 	local ability = keys.ability
@@ -43,6 +54,10 @@ function OnMaledictGoodIntervalThink(keys)
 		end
 	end
 end
+
+-- 创建马甲并在指定位置释放大招
+-- 因为需要处理打断的问题，所以无法使用通用的马甲
+-- 
 function CreateDummyAndCastDeathWard(caster, ability, position, point, scepter)
 	local dummy = CreateUnitByNameAsync("npc_dummy", caster:GetOrigin(), false, caster, caster, caster:GetTeam(),
 		function(unit)
@@ -70,18 +85,9 @@ function CreateDummyAndCastDeathWard(caster, ability, position, point, scepter)
 		end
 	)
 end
-function FindScepter(caster)
-	for i = 0,5 do
-		local item = caster:GetItemInSlot(i)
-		if item then
-			print(item:GetName())
-			if item:GetName() == "item_ultimate_scepter" then
-				return true
-			end
-		end
-	end
-	return false
-end
+
+-- 死亡守卫 —— 施法
+-- 
 function OnDeathWardCast(keys)
 	print("DEATH WARD CASTED")
 	local caster = keys.caster

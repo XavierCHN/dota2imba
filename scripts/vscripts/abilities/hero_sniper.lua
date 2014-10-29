@@ -83,7 +83,7 @@ function OnHeadShotAttackLanded(keys)
 		print("NOT STUNNED IN 2 SECONDS")
 		if RandomInt(1,100) <= stun_chance then
 			print("SUCCESS!!! STUN IT!")
-			ability:ApplyDataDrivenModifier(caster, target, "modifier_headshot_imba", {})
+			AddModifier(caster, target, ability, "modifier_headshot_imba", nil)
 			caster:SetContext("head_shot_stunned", "true", 0)
 			caster:SetContextThink(DoUniqueString("head_shot_count_down"), function() caster:SetContext("head_shot_stunned", "false", 0) end, 2.0)
 		end
@@ -197,7 +197,7 @@ function OnBuyingBullets(keys)
 	local ability = keys.ability
 	
 	if not caster:HasModifier("modifier_sniper_bullets") then
-		ability:ApplyDataDrivenModifier(caster, caster, "modifier_sniper_bullets", {})
+		AddModifier(caster, caster, ability, "modifier_sniper_bullets", nil)
 		caster:SetModifierStackCount("modifier_sniper_bullets",keys.ability,1)
 	else
 		local bullets_count = caster:GetModifierStackCount("modifier_sniper_bullets",keys.ability)
@@ -213,7 +213,7 @@ function OnBuyingBullets(keys)
 			caster:SetModifierStackCount("modifier_sniper_bullets",keys.ability,bullets_count)
 		else
 			caster:Stop()
-			FireGameEvent( 'custom_error_show', { player_ID = caster:GetPlayerID(), _error = "#sniper_not_enough_gold_for_bullets" } )
+			FireGameEvent( 'custom_error_show', { player_ID = caster:GetPlayerID(), _error = "#dota_hud_error_not_enough_gold" } )
 		end
 	end
 	

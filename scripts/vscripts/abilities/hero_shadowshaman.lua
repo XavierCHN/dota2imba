@@ -122,7 +122,7 @@ function OnWardCast(keys)
 				ability_life:SetLevel(1)
 				local duration = ability:GetLevelSpecialValueFor("duration", ability:GetLevel() - 1)
 				print("duration", duration)
-				ability_life:ApplyDataDrivenModifier(ward, ward, "modifier_life_time", {Duration = duration})
+				AddModifier(ward, ward, ability_life, "modifier_life_time", duration)
 
 				-- 设置最大和最小伤害
 				ward:SetBaseDamageMax(damage_max)
@@ -157,7 +157,7 @@ function OnWardAttackLanded(keys)
 				-- 分裂的棒子的持续时间要扣减原始棒子已经存在的时间
 				duration = duration - (GameRules:GetGameTime() - caster.create_time)
 				print("duration", duration)
-				ability_life:ApplyDataDrivenModifier(ward, ward, "modifier_life_time", {Duration = duration})
+				AddModifier(ward, ward, ability_life, "modifier_life_time", duration)
 			end
 		)
 		-- 重置攻击计数

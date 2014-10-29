@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<Project Name="dota2imbascripts.luaprj" >
+    <LuaFile RelativePath=".\..\vscripts\addon_game_mode.lua" />
+    <LuaFile RelativePath=".\..\vscripts\Globals.lua" />
+    <Filter Name="abilities" >
+        <LuaFile RelativePath=".\..\vscripts\abilities\AbilityCore.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\ability_generic.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_antimage.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_axe.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_doom.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_earthshaker.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_juggernaut.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_luna.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_mirana.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_nevermore.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_shadowshaman.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_sniper.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_storm.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_tinker.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_tiny.lua" />
+        <LuaFile RelativePath=".\..\vscripts\abilities\hero_witchdoctor.lua" />
+    </Filter>
+    <Filter Name="neutrals" >
+        <LuaFile RelativePath=".\..\vscripts\neutrals\NeutralCore.lua" />
+    </Filter>
+    <Filter Name="items" >
+        <LuaFile RelativePath=".\..\vscripts\items\ItemCore.lua" />
+    </Filter>
+</Project>

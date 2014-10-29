@@ -2,19 +2,16 @@
 -- AUTHOR: XAVIERCHN
 -- 2014.10.24
 
-require("AbilityCore")
 require("Globals")
+require('items/ItemCore')
+require("abilities/AbilityCore")
+require("neutrals/NeutralCore")
 
 tPrint("Hello World!")
-
 if ImbaGameMode == nil then
 	tPrint("INITING GAME MODE")
 	ImbaGameMode = class({})
 end
-
---------------------------------------------------------------------------------
--- ACTIVATE
---------------------------------------------------------------------------------
 function Activate()
 	tPrint("ACTIVATE")
     GameRules.ImbaGameMode = ImbaGameMode()
@@ -51,31 +48,25 @@ function PrecacheEverythingFromTable( context, kvtable)
 		end
 	end
 end
-
 function Precache( context )
+	tPrint("BEGIN TO PRECACHE RESOURCE")
+	local time = GameRules:GetGameTime()
 	PrecacheEveryThingFromKV( context )
+	time = time - GameRules:GetGameTime()
+	tPrint("DONE PRECACHEING IN:"..tostring(time).."Seconds")
 end
---------------------------------------------------------------------------------
--- INIT
---------------------------------------------------------------------------------
 function ImbaGameMode:InitGameMode()
 	tPrint("INITING IMBA GAME MODE")
 	self._eGameModeEntity = GameRules:GetGameModeEntity()
 	self._eGameModeEntity:SetTowerBackdoorProtectionEnabled( true )
 	
-	ListenToGameEvent("entity_killed", Dynamic_Wrap(ImbaGameMode, "OnEntityKilled"), self)
-	tPrint("DONE REGIST GAME EVENT LISTENER")
-	
-	self._eGameModeEntity:SetContextThink( "ImbaGameMode:GameThink", function() return self:GameThink() end, 0.25 )
+	-- self._eGameModeEntity:SetContextThink( "ImbaGameMode:GameThink", function() return self:GameThink() end, 0.25 )
 
+	ItemCore:Init() tPrint("DONE INIT ITEM CORE")
 	AbilityCore:Init() tPrint("DONE INIT ABILITY CORE")
+	NeutralCore:Init() tPrint("DONE INIT NEUTRAL CORE")
 	tPrint("DONE INIT IMBA GAME MODE")
 end
-
---------------------------------------------------------------------------------
 function ImbaGameMode:GameThink()
 	return 0.25
-end
-function ImbaGameMode:OnEntityKilled()
-	--tPrint("ON-ENTITY-KILLED CALLED")
 end
