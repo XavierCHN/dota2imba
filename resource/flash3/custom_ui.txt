@@ -10,11 +10,11 @@
 		"File"		"CustomError"
 		"Depth"		"50"
 	}
-	// "2"// 目前这个HUD有问题
-	// {
-	// 	"File"		"TinkerLaser"
-	// 	"Depth"		"999"
-	// }
+	"2"// 目前这个HUD有问题
+	{
+		"File"		"TinkerLaser"
+		"Depth"		"999"
+	}
 }
 
 // =============================================

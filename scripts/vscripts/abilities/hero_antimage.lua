@@ -1,11 +1,30 @@
 require("abilities/ability_generic")
 
+if AbilityCore.npc_dota_hero_antimage == nil then
+	AbilityCore.npc_dota_hero_antimage = class({})
+end
+-- self[target_name]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
+function AbilityCore.npc_dota_hero_antimage:CastedAbilityHandler(keys, attacker, _, antimage, _)
+	print("CAST ABILITY ON ANTIMAGE TRIGGERED")
+	local stun_duration = {0, 1, 1.5, 2, 2.5}
+	local trigger_cooldown = {0, 4, 5, 6, 7}
+
+	local ability_spell_shield = antimage:FindAbilityByName("antimage_spell_shield")
+	local ability_level = ability_spell_shield:GetLevel()
+
+	local chance = 5
+	if RandomInt(1,100) < chance then
+		attacker:AddNewModifier(antimage,attacker,"modifier_stunned",{Duration = stun_duration[ability_level + 1]})
+		antimage:SetContext("spell_shield_triggered", "true", trigger_cooldown[ability_level])
+	end
+end
+
 -- 法力损毁 —— 攻击到位
 --
 function OnManaBreakAttackLanded(keys)
 	print("[ANTIMAGE:] ON IMBA MANA BREAK ATTACK LANDED")
 	-- 施法者
-	local caster = keys.caster 
+	local caster = keys.caster
 	-- 技能
 	local ability = keys.ability 
 	-- 目标单位

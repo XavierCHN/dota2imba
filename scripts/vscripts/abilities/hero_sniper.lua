@@ -4,20 +4,13 @@ if AbilityCore.npc_dota_hero_sniper == nil then
 	AbilityCore.npc_dota_hero_sniper = class({})
 end
 
-function AbilityCore.npc_dota_hero_sniper:LearnAbilityHandler(keys)
-	local player = EntIndexToHScript(keys.player)
-	print(player)
-	if not player then return end
-
-	local hero = player:GetAssignedHero()
-	if hero then
-		local ability_name = keys.abilityname
-		if ability_name == "sniper_assassinate_imba" then
-			local ABILITY = hero:FindAbilityByName('sniper_restore_imba')
-			if ABILITY then
-				print("ABILITY FOUND SNIPER RESTORE IMBA")
-				ABILITY:SetLevel(1)
-			end
+-- self[hero_name]:LearnAbilityHandler(keys, hero, keys.abilityname)
+function AbilityCore.npc_dota_hero_sniper:LearnAbilityHandler(keys, hero, ability_name)
+	if ability_name == "sniper_assassinate_imba" then
+		local ABILITY = hero:FindAbilityByName('sniper_restore_imba')
+		if ABILITY then
+			print("ABILITY FOUND SNIPER RESTORE IMBA")
+			ABILITY:SetLevel(1)
 		end
 	end
 end

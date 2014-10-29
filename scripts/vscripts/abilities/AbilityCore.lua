@@ -9,16 +9,31 @@ function AbilityCore:Init()
 	self._vHeroes = {}
 end
 
+-- 用来监听某个单位释放技能的动作
+require('abilities/hero_antimage')
 function AbilityCore:OnPlayerCastAbility(keys)
+	print("CAST ABILITY HANDLER")
 	local player_id = keys.PlayerID
-	local player = PlayerResource:GetPlayer(player_id)
-	if not player then return end
+	local player = PlayerResource:GetPlayer(player_id -1)
+	if not player then print("INVALID PLAYER") return end
 	local hero = player:GetAssignedHero()
-	if hero then
-		local hero_name = hero:GetUnitName()
-		local ability_name = keys.abilityname
-		if self[hero_name] and self[hero_name].abilityname then
-			self[hero_name]:CastAbilityHandler(keys)
+	if not hero then print("INVALID HERO") return end
+
+	local ability_name = keys.abilityname
+	local ability = hero:FindAbilityByName(ability_name)
+	if ability then
+		print("ABILITY IS VALID")
+		local ability_target = ability:GetCursorTarget()
+		if ability_target then
+			local target_name = ability_target:GetUnitName()
+			print("ABILITY TARGET IS VALID",target_name)
+			if self[target_name] and self[target_name].CastedAbilityHandler then
+				self[target_name]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
+			end
+		else
+			if self[hero:GetUnitName()] and self[hero:GetUnitName()].CastedAbilityHandler then
+				self[hero:GetUnitName()]:CastedAbilityHandler(keys, hero, ability, nil, ability_name)
+			end
 		end
 	end
 end
@@ -26,23 +41,24 @@ end
 -- 用来在英雄学习某个技能的时候做出对应操作
 require('abilities/hero_juggernaut') -- 监听疾风剑客击杀英雄事件
 require('abilities/hero_sniper') -- 监听学习大招事件，来给火枪手设置购买子弹的技能等级
-require('abilities/hero_nevermore') -- 监听支配死灵击杀单位事件 TODO
-require('abilities/hero_tiny') -- 监听TOSS事件
+require('abilities/hero_lich') -- 用来自动释放NOVA
+
 function AbilityCore:OnPlayerLearnedAbility(keys)
+	print("LEARNED ABILITY HANDLER")
 	local player = EntIndexToHScript(keys.player)
 	if not player then return end
 	local hero = player:GetAssignedHero()
 	if hero then
 		local hero_name = hero:GetUnitName()
-		if self[hero_name] then
-			self[hero_name]:LearnAbilityHandler(keys)
+		if self[hero_name] and self[hero_name].LearnAbilityHandler then
+			print("LEARNED ABILITY HANDLER CALLING HERO SCRIPT, hero:", hero:GetUnitName(),"ability:",keys.abilityname)
+			self[hero_name]:LearnAbilityHandler(keys, hero, keys.abilityname)
 		end
 	end
 end
 
 
 function AbilityCore:RegisterHeroes(keys)
-	DeepPrint(keys)
 	local nNewState = GameRules:State_Get()	
 	if nNewState == DOTA_GAMERULES_STATE_PRE_GAME then
 		for i=-1,9 do

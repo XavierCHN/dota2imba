@@ -1,6 +1,6 @@
 require('abilities/ability_generic')
+-- 刷新所有技能和物品的CD
 function OnRearmFinished(keys)
-
 	local caster = keys.caster
 	for i = 0,20 do
 		local ability = caster:GetAbilityByIndex(i)	
@@ -9,7 +9,7 @@ function OnRearmFinished(keys)
 		if item then item:EndCooldown() end
 	end
 end
-
+-- 显示黑屏
 function OnLaserCasted(keys)
 	local target = keys.target_entities[1]
 	local caster = keys.caster
@@ -19,14 +19,17 @@ function OnLaserCasted(keys)
 	CreateDummyAndCastAbilityOnTarget(caster, "tinker_laser", ability:GetLevel(), target, 10, false)
 
 	if not target:IsRealHero() then return end
-end
 
+	FireGameEvent("imba_laser_hit_unit",{PlayerID = target:GetPlayerID()})
+end
+-- 移除黑屏
 function OnLaserModifierDestroy(keys)
 	local target = keys.target_entities[1]
 	if not target then return end
 	if not target:IsRealHero() then return end
+	FireGameEvent("imba_laser_disappear",{PlayerID = target:GetPlayerID()})
 end
-
+-- 释放交叉90度的机器人进军
 function OnMarchStart(keys)
 	local caster = keys.caster
 	local ability = keys.ability

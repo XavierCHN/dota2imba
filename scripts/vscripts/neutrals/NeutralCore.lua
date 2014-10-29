@@ -1,6 +1,6 @@
 require('items/ItemCore')
 
-local DROP_RATE = 7
+local DROP_RATE = 100
 
 if NeutralCore == nil then
 	NeutralCore = class({})
@@ -12,6 +12,7 @@ function NeutralCore:Init()
 end
 
 function NeutralCore:OnNeutralKilled(keys)
+	if not (keys.entindex_attacker and keys.entindex_killed) then return end
 	local attacker = EntIndexToHScript(keys.entindex_attacker)
 	local victim = EntIndexToHScript(keys.entindex_killed)
 	if not victim:IsNeutralUnitType() then return end
@@ -20,7 +21,21 @@ function NeutralCore:OnNeutralKilled(keys)
 	if RandomInt(1,100) > DROP_RATE then return end
 	
 	local item_to_drop = ItemCore:GetRandomShopItem()
-	
-	local item = CreateItem(item_to_drop, attacker, attacker)
-	item:LaunchLoot(true,10,10,victim:GetOrigin()) --todo
+
+	-- todo
+	-- item_to_drop = "item_ultimate_scepter"
+
+	local position = victim:GetOrigin()
+
+	if item_to_drop then
+		local item = CreateItem(item_to_drop, attacker, attacker)
+		print(item_to_drop,item)
+		item:SetPurchaseTime(0)
+
+	    local drop = CreateItemOnPositionSync( position , item)
+	    if drop then
+	        drop:SetContainedItem( item )
+	        item:LaunchLoot( false, 30, 0.35, position + RandomVector( RandomFloat( 1,10 ) ) )
+	    end
+	end
 end

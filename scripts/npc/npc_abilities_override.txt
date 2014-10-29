@@ -1,7 +1,10 @@
 "DOTAAbilities"
 {
+	//REGION AXE
 	"axe_berserkers_call"
 	{
+		"OnLearnbar"					"0"
+		
 		"AbilitySpecial"
 		{
 			"01"
@@ -27,6 +30,7 @@
 		"AbilityCooldown"				"0.0 0.0 0.0"
 		"AbilityManaCost"				"0 0 0"		
 		"AbilityCastRange"				"9999"
+		"OnLearnbar"					"0"
 		
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -74,11 +78,13 @@
 			}
 		}
 	}	
+	//REGION SNIPER
 	"sniper_shrapnel"
 	{
 		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
 		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
 		"AbilityManaCost"				"0 0 0 0"
+		"OnLearnbar"					"0"
 		"AbilitySpecial"
 		{
 			"01"
@@ -113,6 +119,7 @@
 			}
 		}
 	}
+	//REGION LUNA
 	"luna_moon_glaive"
 	{
 		"AbilitySpecial"
@@ -138,6 +145,7 @@
 	{
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_TURN"
 		
+		"OnLearnbar"					"0"
 		"AbilityCastRange"				"1500"
 		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
 		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
@@ -152,6 +160,7 @@
 			}
 		}
 	}
+	//REGION MIRANA
 	"mirana_leap"
 	{
 		"AbilityCooldown"				"20.0 16.0 12.0 8.0"
@@ -172,6 +181,7 @@
 			}
 		}
 	}
+	//REGION JUGGERNAUT
 	"juggernaut_blade_dance"
 	{
 		"AbilitySpecial"
@@ -224,12 +234,15 @@
 			}
 		}
 	}
+	//REGION STORM
 	"storm_spirit_static_remnant"
 	{
 		"AbilityCastPoint"				"0 0 0 0"
 		"AbilityCooldown"				"0.0"
 		"AbilityManaCost"				"0 0 0 0"
+		"OnLearnbar"					"0"
 	}
+	//REGION WD WITCHDOCTOR
 	"witch_doctor_paralyzing_cask"
 	{
 		"AbilitySpecial"
@@ -315,6 +328,7 @@
 		"AbilityCooldown"				"0.0"
 		"AbilityChannelTime"			"8.0 8.0 8.0"
 		"AbilityManaCost"				"200 200 200"
+		"OnLearnbar"					"0"
 		"AbilitySpecial"
 		{
 			"01"
@@ -344,6 +358,7 @@
 			}
 		}
 	}
+	//REGION DOOM
 	"doom_bringer_scorched_earth"
 	{
 		"AbilitySpecial"
@@ -404,6 +419,7 @@
 		"AbilityCastRange"				"9999 9999 9999"
 		"AbilityCooldown"				"0.0"
 		"AbilityManaCost"				"0 0 0"
+		"OnLearnbar"					"0"
 		"AbilitySpecial"
 		{
 			"01"
@@ -433,12 +449,14 @@
 			}
 		}
 	}
+	//REGION TINKER
 	"tinker_laser"
 	{
 		"AbilityCastRange"				"9999"
 		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
 		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
 		"AbilityManaCost"				"0 0 0 0"
+		"OnLearnbar"					"0"
 	}
 	"tinker_heat_seeking_missile"
 	{
@@ -470,6 +488,7 @@
 		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
 		"AbilityDamage"					"16 24 32 40"
 		"AbilityManaCost"				"0 0 0 0"
+		"OnLearnbar"					"0"
 		"AbilitySpecial"
 		{
 			"01"
@@ -504,12 +523,14 @@
 			}
 		}
 	}
+	//REGION SHADOWSHAMAN Y
 	"shadow_shaman_ether_shock"
 	{
 		"AbilityCastRange"				"9999"
 		"AbilityCastPoint"				"0 0 0 0"
 		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
 		"AbilityManaCost"				"0 0 0 0"
+		"OnLearnbar"					"0"
 	}
 	"shadow_shaman_voodoo"
 	{
@@ -517,6 +538,7 @@
 		"AbilityCastPoint"				"0 0 0 0"
 		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
 		"AbilityManaCost"				"0 0 0 0"
+		"OnLearnbar"					"0"
 	}
 	"shadow_shaman_shackles"
 	{
@@ -524,5 +546,114 @@
 		"AbilityCastPoint"				"0 0 0 0"
 		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
 		"AbilityManaCost"				"0 0 0 0"
+		"OnLearnbar"					"0"
 	}
+	//REGION NEVERMORE SF SHADOWFIEND
+	"nevermore_necromastery"
+	{
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"necromastery_damage_per_soul"	"2"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"necromastery_max_souls"		"30 60 90 60000"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_FLOAT"
+				"necromastery_soul_release"		"0.0"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"necromastery_souls_hero_bonus"	"11"
+			}
+			
+		}
+	}
+	"nevermore_dark_lord"
+	{
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"presence_armor_reduction"		"-9 -15 -23 -30"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"presence_radius"				"1800"
+			}
+		}
+	}
+	"nevermore_requiem"
+	{
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_radius"	"975 1000 1025"		
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_reduction_ms"	"-20"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"requiem_slow_duration"	"5.0"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_reduction_damage"	"-50"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_reduction_tooltip"	"-50"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_reduction_radius"	"700 700 700"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_soul_conversion"	"2 2 2"
+			}
+			"08"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_line_width_start"	"75 100 125"
+			}
+			"09"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_line_width_end"	"400 425 450"
+			}
+			"10"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"requiem_line_speed"	"700 700 700"
+			}
+			"11"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"soul_death_release"	"0.0"
+			}
+					
+		}
+	}
+	//REGION LICH
+	
 }

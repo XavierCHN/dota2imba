@@ -17,6 +17,7 @@
 					"MODIFIER_STATE_NOT_ON_MINIMAP"	   	"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NO_UNIT_COLLISION"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVISIBLE"			"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -337,7 +338,7 @@
 							"Teams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 							"Types"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 						}
-						"Type"			 	"DAMAGE_TYPE_PHYSICAL"
+						"Type"			 	"DAMAGE_TYPE_MAGICAL"
 						"Damage"		 	"%AbilityDamage"
 					}
 					"FireEffect"
@@ -427,6 +428,11 @@
 		"AbilityType"			"DOTA_ABILITY_TYPE_BASIC"
 		"AbilityCooldown"		"115"
 		"AbilityManaCost"		"120"
+
+		"precache"
+		{
+			"soundfile"		"soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
+		}
 
 		"OnSpellStart"
 		{
@@ -2232,7 +2238,7 @@
 	{
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"tinker_rearm"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"
+		"AbilityCastAnimation"			"ACT_DOTA_TINKER_REARM1 ACT_DOTA_TINKER_REARM2 ACT_DOTA_TINKER_REARM3"
 
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
@@ -2406,5 +2412,124 @@
 				"toss_height"				"1000"
 			}
 		}
+	}
+	//REGION NEVERMORE
+	"nevermore_shadowraze1_imba"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"nevermore_shadowraze1"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		
+		"AbilityCastPoint"				"0.67 0.67 0.67 0.67"
+		"AbilityCooldown"				"10.0 10.0 10.0 10.0"
+		"AbilityDamage"					"75 150 225 300"
+		"AbilityManaCost"				"75 75 75 75"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_nevermore.lua"
+				"Target"		"CASTER"
+				"Function"		"OnRazeStart"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"250"		
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"75 150 225 300"
+			}
+		}
+	}
+	"nevermore_shadowraze2_imba"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"nevermore_shadowraze2"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"OnLearnbar"					"0"
+
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastPoint"				"0.67 0.67 0.67 0.67"
+		"AbilityCooldown"				"10.0 10.0 10.0 10.0"
+		"AbilityDamage"					"75 150 225 300"
+		"AbilityManaCost"				"75 75 75 75"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_nevermore.lua"
+				"Target"		"CASTER"
+				"Function"		"OnRazeStart"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"250"		
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"75 150 225 300"
+			}
+		}
+	}
+	"nevermore_shadowraze3_imba"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"nevermore_shadowraze3"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"OnLearnbar"					"0"
+
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"AbilityCastPoint"				"0.67 0.67 0.67 0.67"
+		"AbilityCooldown"				"10.0 10.0 10.0 10.0"
+		"AbilityDamage"					"75 150 225 300"
+		"AbilityManaCost"				"75 75 75 75"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_nevermore.lua"
+				"Target"		"CASTER"
+				"Function"		"OnRazeStart"
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"250"		
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"75 150 225 300"
+			}
+		}
+	}
+	//REGION LICH
+	"lich_dark_ritual_imba"
+	{
+
 	}
 }

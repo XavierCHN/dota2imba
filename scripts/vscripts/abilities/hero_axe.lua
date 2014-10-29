@@ -92,6 +92,9 @@ function OnCullingBlade(keys)
 			ability = ability
 		})
 	else
+		if target_deaths/target_kills > 2 then
+			FireGameEvent("show_center_message",{message = "NOOB!!!", duration = 2})
+		end
 		-- 创建马甲单位并对目标释放真正的淘汰之刃
 		CreateDummyAndCastAbilityOnTarget(caster, "axe_culling_blade" , 2, target, 0.2, FindScepter(caster))
 	end

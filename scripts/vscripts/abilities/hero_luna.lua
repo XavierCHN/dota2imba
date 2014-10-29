@@ -37,73 +37,31 @@ function OnLucentBeam(keys)
 			unit:SetModifierStackCount("modifier_luna_lucent_beam_imba_attack_bonus",ability,math.min(modifier_count + 1,10))
 		end
 	end
-
-	local dummy_unit = CreateUnitByNameAsync("npc_dummy", npc_owner:GetOrigin() + Vector(0,0,150), false, npc_owner, npc_owner, npc_owner:GetTeam(), 
-		function(unit)
-			print("unit created")
-			unit:SetForwardVector((target:GetOrigin() - caster:GetOrigin()):Normalized())
-			unit:AddAbility("luna_lucent_beam")
-			local ability_original_lucent_beam = unit:FindAbilityByName("luna_lucent_beam")
-			ability_original_lucent_beam:SetLevel(ability:GetLevel())
-			ability_original_lucent_beam:SetOverrideCastPoint(0)
-			print(ability_original_lucent_beam:IsFullyCastable())
-			print("UNIT OWNER", unit:GetOwner():GetUnitName())
-			unit:SetContextThink("cast_ability",
-				function()
-					unit:CastAbilityOnTarget(target,ability_original_lucent_beam,unit:GetOwner():GetPlayerID())
-				end,
-			0)
-			unit:SetContextThink(DoUniqueString("remove_self"), function()  unit:RemoveSelf() end, 0.2)
-		end
-	)
+	CreateDummyAndCastAbilityOnTarget(npc_owner, "luna_lucent_beam", ability:GetLevel(), target, 2, false)
 end
 function OnLunaEclipseStart(keys)
-	print("ON LUNA ECLIPSE START")
 	local caster = keys.caster
 	caster:SetContext("beam_count","0",0)
 	OnLunaEclipse(keys)
 end
 function OnLunaEclipse(keys)
-	print("ECLIPSE THINKING")
 	local caster = keys.caster
-	local beam_count = tonumber(caster:GetContext("beam_count")) or 0
+	local beam_count = tonumber(caster:GetContext("beam_count") or "0")
 	local ability = keys.ability
 	local eclipse_radius = ability:GetLevelSpecialValueFor("radius", ability:GetLevel() - 1)
 
 	local enemy_heroes = FindUnitsInRadius(caster:GetTeam(), caster:GetOrigin(), nil, eclipse_radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 	local target = nil
-
-	print(tableCount(enemy_heroes))
-
-	if tableCount(enemy_heroes) > 0 then
-		target = enemy_heroes[RandomInt(1, tableCount(enemy_heroes))]
+	print("enemies count",#enemy_heroes)
+	if #enemy_heroes > 0 then
+		target = enemy_heroes[RandomInt(1, #enemy_heroes)]
 	end
-
 	if target ~= nil then
-		print("BEGIN TO DAMAGE TARGET", target)
-		local dummy_unit = CreateUnitByNameAsync("npc_dummy", caster:GetOrigin(), false, caster, caster, caster:GetTeam(), 
-			function(unit)
-				print("unit created")
-				unit:SetForwardVector((target:GetOrigin() - caster:GetOrigin()):Normalized())
-				unit:AddAbility("luna_lucent_beam_imba")
-				local ability_original_lucent_beam = unit:FindAbilityByName("luna_lucent_beam_imba")
-				ability_original_lucent_beam:SetLevel(ability:GetLevel())
-				ability_original_lucent_beam:SetOverrideCastPoint(0)
-				print(ability_original_lucent_beam:IsFullyCastable())
-				unit:SetOwner(caster)
-				unit:SetContextThink("cast_ability",
-					function()
-						unit:CastAbilityOnTarget(target,ability_original_lucent_beam,unit:GetOwner():GetPlayerID())
-					end,
-				0)
-				unit:SetContextThink(DoUniqueString("remove_self"), function()  unit:RemoveSelf() end, 2)
-			end
-		)
+		CreateDummyAndCastAbilityOnTarget(caster, "luna_lucent_beam_imba", ability:GetLevel(), target, 2, false)
 	end
 
 	local beam_count = beam_count + 1
 	local max_beam = ability:GetLevelSpecialValueFor("beams", ability:GetLevel() - 1)
-	print(max_beam)
 	if beam_count >= max_beam then
 		caster:RemoveModifierByName("modifier_luna_eclipse_imba")
 	end
