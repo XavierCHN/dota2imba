@@ -11,6 +11,10 @@ end
 
 -- 用来监听某个单位释放技能的动作
 require('abilities/hero_antimage')
+require('abilities/hero_kunkka')
+require('abilities/hero_centaur')
+require('abilities/hero_earthshaker')
+
 function AbilityCore:OnPlayerCastAbility(keys)
 	print("CAST ABILITY HANDLER")
 	local player_id = keys.PlayerID
@@ -22,16 +26,25 @@ function AbilityCore:OnPlayerCastAbility(keys)
 	local ability_name = keys.abilityname
 	local ability = hero:FindAbilityByName(ability_name)
 	if ability then
-		print("ABILITY IS VALID")
+		print("ABILITY IS VALID", ability:GetAbilityName())
 		local ability_target = ability:GetCursorTarget()
 		if ability_target then
 			local target_name = ability_target:GetUnitName()
 			print("ABILITY TARGET IS VALID",target_name)
 			if self[target_name] and self[target_name].CastedAbilityHandler then
+				print("ability casted handler called with target, casted")
+				-- self[target_name]:CastedAbilityHandler(keys, target, ability, source, ability_name)
 				self[target_name]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
+
+			end
+			if self[hero:GetUnitName()] and self[hero:GetUnitName()].CastedAbilityHandler then
+				print("ability casted handler called with target, cast to")
+				-- self[hero:GetUnitName()]:CastedAbilityHandler(keys, source, ability, target, ability_name)
+				self[hero:GetUnitName()]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
 			end
 		else
 			if self[hero:GetUnitName()] and self[hero:GetUnitName()].CastedAbilityHandler then
+				print("ability casted handler called without target")
 				self[hero:GetUnitName()]:CastedAbilityHandler(keys, hero, ability, nil, ability_name)
 			end
 		end

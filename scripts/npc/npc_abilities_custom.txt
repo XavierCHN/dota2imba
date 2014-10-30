@@ -18,6 +18,7 @@
 					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_NO_UNIT_COLLISION"	"MODIFIER_STATE_VALUE_ENABLED"
 					"MODIFIER_STATE_INVISIBLE"			"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"		"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
 		}
@@ -940,7 +941,7 @@
 			"06"
 			{
 				"var_type"					"FIELD_FLOAT"
-				"head_shot_chance_per_second"	"0.4 0.6 1.0"
+				"head_shot_chance_per_second"	"0.4 0.5 0.6"
 			}
 		}
 	}
@@ -2531,5 +2532,215 @@
 	"lich_dark_ritual_imba"
 	{
 
+	}
+	//REGION CENTAUR
+	"centaur_stampede_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"centaur_stampede"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+
+		"AbilityCooldown"				"90.0 75.0 60.0"
+		"AbilityManaCost"				"80"
+		"AbilityModifierSupportValue"	"0.2"	// hits everything on the map
+
+		"Modifiers"
+		{
+			"modifier_strength_bonus_imba"
+			{
+				"Passive"		"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS"	"%strength_bonus"
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"duration"			"3.75"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"base_damage"		"0"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"strength_damage"	"1.0 2.0 3.0"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"slow_duration"		"1.5"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"			"105"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"slow_movement_speed""100"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"strength_bonus"	"30 60 90"
+			}
+		}
+	}
+	//REGION EARTHSHAKER
+	"earthshaker_fissure_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"earthshaker_fissure"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"1400"
+		"AbilityCastPoint"				"0.69 0.69 0.69 0.69"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"15.0 15.0 15.0 15.0"
+		"AbilityDuration"				"1.0 1.25 1.5 1.75"
+
+		// Damage.
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityDamage"					"125 175 225 275"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"125 140 155 170"		
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile" 	"scripts/vscripts/abilities/hero_earthshaker.lua"
+				"Target"		"POINT"
+				"Function"		"OnFissure"
+			}
+		}
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"fissure_range"				"1400"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"fissure_duration"			"8.0"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"fissure_radius"				"225"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"stun_duration"				"1.0 1.25 1.5 1.75"
+			}
+		}
+	}
+	"earthshaker_enchant_totem_imba"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"earthshaker_enchant_totem"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_2"
+
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange"				"0"
+		"AbilityCastPoint"				"0.69 0.69 0.69 0.69"
+		"AbilityCooldown"				"5.0"
+		"AbilityDuration"				"14.0 14.0 14.0 14.0"
+		"AbilityDamage"					"0 0 0 0"
+		"AbilityManaCost"				"50"		
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"			"modifier_earthshaker_enchant_totem_imba"
+				"Target"				"CASTER"
+			}
+			"FireSound"
+			{
+				"Target"				"CASTER"
+				"EffectName"			"Hero_EarthShaker.Totem"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_earthshaker_enchant_totem_imba"
+			{
+				"Duration"				"%tooltip_duration"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE"			"%totem_damage_percentage"
+				}
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/abilities/hero_earthshaker.lua"
+						"Target"		"TARGET"
+						"percentage"	"%totem_damage_percentage"
+						"radius"		"%cleave_radius"
+						"Function"		"OnTotemAttack"
+					}
+					"CleaveAttack"
+					{
+						"CleavePercent"				"100"
+						"CleaveRadius"				"%cleave_radius"
+						"CleaveEffect"				"particles/units/heroes/hero_jakiro/jakiro_liquid_fire_explosion.vpcf"
+					}
+					"RemoveModifier"
+					{
+						"Target"				"CASTER"
+						"ModifierName"			"modifier_earthshaker_enchant_totem_imba"
+					}
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"totem_damage_percentage"	"100 200 300 400"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"tooltip_duration"			"14.0 14.0 14.0 14.0"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"cleave_radius"				"300"
+			}
+		}
 	}
 }

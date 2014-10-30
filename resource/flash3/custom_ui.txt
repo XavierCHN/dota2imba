@@ -10,10 +10,15 @@
 		"File"		"CustomError"
 		"Depth"		"50"
 	}
-	"2"// 目前这个HUD有问题
+	"2"
 	{
 		"File"		"TinkerLaser"
-		"Depth"		"999"
+		"Depth"		"1001"
+	}
+	"3"
+	{
+		"File"		"Loading"
+		"Depth"		"379"
 	}
 }
 
