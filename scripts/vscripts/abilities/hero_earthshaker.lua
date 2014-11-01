@@ -14,6 +14,7 @@ end
 function AbilityCore.npc_dota_hero_earthshaker:GeneralCastAbilityHandler(caster, aiblity)
 	if not caster:GetUnitName() == "npc_dota_hero_earthshaker" then return end
 	local ability_aftershock = caster:FindAbilityByName("earthshaker_aftershock")
+	if ability_aftershock:GetLevel() < 1 then return end
 	local radius = ability_aftershock:GetLevelSpecialValueFor("aftershock_range", ability_aftershock:GetLevel() -1)	
 	radius = radius + 150
 	if ability_aftershock:GetLevel() > 0 then
