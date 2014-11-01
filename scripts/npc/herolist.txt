@@ -6,15 +6,23 @@
 	"npc_dota_hero_luna"				"1"//4
 	"npc_dota_hero_mirana"				"1"//5
 	"npc_dota_hero_axe"					"1"//6
-	"npc_dota_hero_witch_doctor"		"1"//8
-	"npc_dota_hero_doom_bringer"		"1"//10
-	"npc_dota_hero_tinker"				"1"//11
-	"npc_dota_hero_kunkka"				"1"//15
-	"npc_dota_hero_centaur"				"1"//16
-	"npc_dota_hero_earthshaker"			"1"//17
-	"npc_dota_hero_nevermore"			"1"//14//可以的话，做一下大招的特效
+	"npc_dota_hero_witch_doctor"		"1"//7
+	"npc_dota_hero_doom_bringer"		"1"//8
+	"npc_dota_hero_tinker"				"1"//9
+	"npc_dota_hero_kunkka"				"1"//10
+	"npc_dota_hero_centaur"				"1"//11
+	"npc_dota_hero_earthshaker"			"1"//12
+	"npc_dota_hero_nevermore"			"1"//13
+	"npc_dota_hero_sven"				"1"//14
+	"npc_dota_hero_omniknight"			"1"//15
+	"npc_dota_hero_windrunner"			"1"//16
+	"npc_dota_hero_drow_ranger"			"1"
+	"npc_dota_hero_venomancer"			"1"
+	"npc_dota_hero_lina"				"1"
+	"npc_dota_hero_queenofpain"			"1"
+	"npc_dota_hero_storm_spirit"		"1"
+	"npc_dota_hero_magnataur"			"1"
 
-	"npc_dota_hero_storm_spirit"		"0"//7
 	"npc_dota_hero_shadow_shaman"		"0"//9
 	"npc_dota_hero_tiny"				"0"//12
 	"npc_dota_hero_lich"				"0"//13

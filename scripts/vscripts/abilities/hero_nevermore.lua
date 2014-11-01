@@ -6,13 +6,15 @@ end
 
 -- self[hero_name]:LearnAbilityHandler(keys, hero, keys.abilityname)
 function AbilityCore.npc_dota_hero_nevermore:LearnAbilityHandler(keys, hero, ability_name)
-	if ability_name == "nevermore_shadowraze1_imba" then
+	if ability_name == "nevermore_shadowraze1_imba"  or ability_name == "nevermore_shadowraze2_imba" or ability_name == "nevermore_shadowraze3_imba"then
 		local ability_1 = hero:FindAbilityByName("nevermore_shadowraze1_imba")
 		local ability_2 = hero:FindAbilityByName("nevermore_shadowraze2_imba")
 		local ability_3 = hero:FindAbilityByName("nevermore_shadowraze3_imba")
 		if ability_1 and ability_2 and ability_3 then
-			ability_2:SetLevel(ability_1:GetLevel())
-			ability_3:SetLevel(ability_1:GetLevel())
+			local max_level = math.max(ability_1:GetLevel(), ability_2:GetLevel(), ability_3:GetLevel())
+			ability_1:SetLevel(max_level)
+			ability_2:SetLevel(max_level)
+			ability_3:SetLevel(max_level)
 		end
 	end
 end

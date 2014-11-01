@@ -649,7 +649,7 @@
 			"11"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"soul_death_release"	"0.0"
+				"soul_death_release"	"1.0"
 			}
 					
 		}
@@ -760,6 +760,35 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 	}
 	//REGION EARTHSHAKER
+	"earthshaker_fissure"
+	{
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityDamage"					"60 80 120 140"
+		"AbilityManaCost"				"0 0 0 0"		
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"fissure_range"				"1400"
+			}
+			"02"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"fissure_duration"			"8.0"
+			}
+			"03"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"fissure_radius"				"225"
+			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"stun_duration"				"1.0 1.25 1.5 1.75"
+			}
+		}
+	}
 	"earthshaker_echo_slam"
 	{
 		"AbilityCooldown"				"120 100 90"
@@ -792,6 +821,114 @@
 			{
 				"var_type"					"FIELD_INTEGER"
 				"echo_slam_echo_damage"		"60 70 90"
+			}
+		}
+	}
+	//REGION OMNIKNIGHT
+	"omniknight_purification"
+	{
+		"AbilityCastRange"				"9999"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityCooldown"				"0.0"
+		"AbilityManaCost"				"0 0 0 0"
+	}
+	"omniknight_repel"
+	{
+		"AbilityCastRange"				"800 1000 1200 1400"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"7.0 10.0 12.0 15.0"
+			}
+		}
+	}
+	"omniknight_degen_aura"
+	{
+		"AbilityCastRange"				"600"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"speed_bonus"			"-18 -26 -34 -50"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"attack_bonus_tooltip"	"-18 -26 -34 -50"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"600"
+			}
+		}
+	}
+	//REGION SVEN
+	"sven_storm_bolt"
+	{
+		"AbilityCastRange"				"9999"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityCooldown"				"13.0"
+		"AbilityDamage"					"150 250 350 450"
+		"AbilityManaCost"				"0"
+	}
+	//REGION WINDRUNNER
+	"windrunner_powershot"
+	{
+		"AbilityCastRange"				"1800"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+		"AbilityCooldown"				"0.0 0.0 0.0 0.0"
+		"AbilityChannelTime"			"1.0 1.0 1.0 1.0"
+		"AbilityDamage"					"80 100 120 140"
+		"AbilityManaCost"				"0 0 0 0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"damage_reduction"		"0.1 0.1 0.1 0.1"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"speed_reduction"		"0.1 0.1 0.1 0.1"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"arrow_width"			"125 125 125 125"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"arrow_range"			"1825"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"arrow_speed"			"3000.0 3000.0 3000.0 3000.0"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"tree_width"			"75 75 75 75"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"vision_radius"			"800 800 800 800"
+			}
+			"08"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"vision_duration"		"3.34 3.34 3.34 3.34"
 			}
 		}
 	}

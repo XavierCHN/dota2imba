@@ -1,3 +1,12 @@
+-- [[API]]
+--- self[target_name]:CastedAbilityHandler(target, source, ability, keys)
+--- self[hero_name]:CastAbilityOnTargetHandler(source, target, ability_name, ability, keys)
+--- self[hero_name]:CastAbilityAtPositionHandler(hero, target_position, ability, keys)
+--- self[hero_name]:CastAbilityNoTargetHandler(hero, ability)
+--- self[hero_name]:LearnAbilityHandler(keys, hero, keys.abilityname)
+--- self[hero_name]:GeneralCastAbilityHandler(hero, ability)
+-- [[API]]
+
 if AbilityCore == nil then
 	AbilityCore = class({})
 end
@@ -14,6 +23,9 @@ require('abilities/hero_antimage')
 require('abilities/hero_kunkka')
 require('abilities/hero_centaur')
 require('abilities/hero_earthshaker')
+require('abilities/hero_omni')
+require('abilities/hero_sven')
+require('abilities/hero_windrunner')
 
 function AbilityCore:OnPlayerCastAbility(keys)
 	print("CAST ABILITY HANDLER")
@@ -28,25 +40,48 @@ function AbilityCore:OnPlayerCastAbility(keys)
 	if ability then
 		print("ABILITY IS VALID", ability:GetAbilityName())
 		local ability_target = ability:GetCursorTarget()
+		local ability_position = ability:GetCursorPosition()
+		local hero_name = hero:GetUnitName()
+
 		if ability_target then
 			local target_name = ability_target:GetUnitName()
-			print("ABILITY TARGET IS VALID",target_name)
 			if self[target_name] and self[target_name].CastedAbilityHandler then
-				print("ability casted handler called with target, casted")
-				-- self[target_name]:CastedAbilityHandler(keys, target, ability, source, ability_name)
-				self[target_name]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
-
+				-- 某个英雄被释放一个指向性技能的Handler
+				local source = hero
+				local target = ability_target
+				------
+				---
+				self[target_name]:CastedAbilityHandler(target, source, ability, keys)
+				---
+				-----
 			end
-			if self[hero:GetUnitName()] and self[hero:GetUnitName()].CastedAbilityHandler then
-				print("ability casted handler called with target, cast to")
-				-- self[hero:GetUnitName()]:CastedAbilityHandler(keys, source, ability, target, ability_name)
-				self[hero:GetUnitName()]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
+			if self[hero_name] and self[hero_name].CastAbilityOnTargetHandler then
+				-- 某个英雄释放一个指向性技能的Handler
+				local source = hero
+				local target = ability_target
+				---
+				self[hero_name]:CastAbilityOnTargetHandler(source, target, ability_name, ability, keys)
+				---
 			end
-		else
-			if self[hero:GetUnitName()] and self[hero:GetUnitName()].CastedAbilityHandler then
-				print("ability casted handler called without target")
-				self[hero:GetUnitName()]:CastedAbilityHandler(keys, hero, ability, nil, ability_name)
+		end
+		if ability_position then
+			if self[hero_name] and self[hero_name].CastAbilityAtPositionHandler then
+				-- 当某个英雄对某个位置释放技能的Handler
+				----
+				self[hero_name]:CastAbilityAtPositionHandler(hero, ability_position, ability, keys)
+				----
 			end
+		end
+		if not (ability_target and ability_position) then
+			if self[hero_name] and self[hero_name].CastAbilityNoTargetHandler then
+				-- 当某个英雄释放某个无目标技能的Handler
+				----
+				self[hero_name]:CastAbilityNoTargetHandler(hero, ability)
+				----
+			end
+		end
+		if self[hero_name] and self[hero_name].GeneralCastAbilityHandler then
+			self[hero_name]:GeneralCastAbilityHandler(hero, ability)
 		end
 	end
 end
@@ -55,6 +90,7 @@ end
 require('abilities/hero_juggernaut') -- 监听疾风剑客击杀英雄事件
 require('abilities/hero_sniper') -- 监听学习大招事件，来给火枪手设置购买子弹的技能等级
 require('abilities/hero_lich') -- 用来自动释放NOVA
+require('abilities/hero_nevermore')
 
 function AbilityCore:OnPlayerLearnedAbility(keys)
 	print("LEARNED ABILITY HANDLER")

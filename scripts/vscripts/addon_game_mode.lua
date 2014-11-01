@@ -6,6 +6,7 @@ require("Globals")
 require('items/ItemCore')
 require("abilities/AbilityCore")
 require("neutrals/NeutralCore")
+require('HudControl/CameraControl')
 
 tPrint("Hello World!")
 if ImbaGameMode == nil then
@@ -65,6 +66,7 @@ function ImbaGameMode:InitGameMode()
 	ItemCore:Init() tPrint("DONE INIT ITEM CORE")
 	AbilityCore:Init() tPrint("DONE INIT ABILITY CORE")
 	NeutralCore:Init() tPrint("DONE INIT NEUTRAL CORE")
+	-- CameraControl:Init() tPrint('DONE INIT CAMERA CONTROL')
 	tPrint("DONE INIT IMBA GAME MODE")
 end
 function ImbaGameMode:GameThink()

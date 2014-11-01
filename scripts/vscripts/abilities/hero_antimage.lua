@@ -1,11 +1,21 @@
+-- [[API]]
+--- self[target_name]:CastedAbilityHandler(target, source, ability, keys)
+--- self[hero_name]:CastAbilityOnTargetHandler(source, target, ability_name, ability, keys)
+--- self[hero_name]:CastAbilityAtPositionHandler(hero, target_position, ability, keys)
+--- self[hero_name]:CastAbilityNoTargetHandler(hero, ability)
+--- self[hero_name]:LearnAbilityHandler(keys, hero, keys.abilityname)
+--- self[hero_name]:GeneralCastAbilityHandler(hero, ability)
+-- [[API]]
+
+
 require("abilities/ability_generic")
 
 if AbilityCore.npc_dota_hero_antimage == nil then
 	AbilityCore.npc_dota_hero_antimage = class({})
 end
 -- self[target_name]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
-function AbilityCore.npc_dota_hero_antimage:CastedAbilityHandler(keys, attacker, _, antimage, _)
-	print("CAST ABILITY ON ANTIMAGE TRIGGERED")
+function AbilityCore.npc_dota_hero_antimage:CastedAbilityHandler(antimage, source, ability, keys)
+
 	local stun_duration = {0, 1, 1.5, 2, 2.5}
 	local trigger_cooldown = {0, 4, 5, 6, 7}
 
@@ -14,7 +24,7 @@ function AbilityCore.npc_dota_hero_antimage:CastedAbilityHandler(keys, attacker,
 
 	local chance = 5
 	if RandomInt(1,100) < chance then
-		attacker:AddNewModifier(antimage,attacker,"modifier_stunned",{Duration = stun_duration[ability_level + 1]})
+		source:AddNewModifier(antimage,source,"modifier_stunned",{Duration = stun_duration[ability_level + 1]})
 		antimage:SetContext("spell_shield_triggered", "true", trigger_cooldown[ability_level])
 	end
 end

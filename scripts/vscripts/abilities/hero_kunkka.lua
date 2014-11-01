@@ -1,4 +1,12 @@
--- self[target_name]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
+-- [[API]]
+--- self[target_name]:CastedAbilityHandler(target, source, ability, keys)
+--- self[hero_name]:CastAbilityOnTargetHandler(source, target, ability_name, ability, keys)
+--- self[hero_name]:CastAbilityAtPositionHandler(hero, target_position, ability, keys)
+--- self[hero_name]:CastAbilityNoTargetHandler(hero, ability)
+--- self[hero_name]:LearnAbilityHandler(keys, hero, keys.abilityname)
+--- self[hero_name]:GeneralCastAbilityHandler(hero, ability)
+-- [[API]]
+
 if AbilityCore.npc_dota_hero_kunkka == nil then
 	AbilityCore.npc_dota_hero_kunkka = class({})
 end
@@ -18,23 +26,8 @@ function ReturnXMarkTargets(kunkka, target)
 		end
 	end
 end
-function grabEnemies(caster)
 
-	local caster_fv = caster:GetForwardVector()
-	local caster_origin = caster:GetOrigin()
-	local target_pos = caster_origin + caster_fv * 1000
-	caster:SetContextThink(DoUniqueString(""),
-		function()
-			local enemies = FindUnitsInRadius(caster:GetTeam(), target_pos, nil, 625, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
-			print("enemies found", #enemies)
-			--TODO
-			-- for _, unit in pairs(enemies) do
-			-- 	unit:AddNewModifier(caster, nil, "modifier_pugna_decrepify", {Duration = 2})
-			-- end
-		end,
-	2.8)
-end
-function AbilityCore.npc_dota_hero_kunkka:CastedAbilityHandler(keys, kunkka, ability, target, ability_name)
+function AbilityCore.npc_dota_hero_kunkka:CastAbilityOnTargetHandler(kunkka, target, ability_name, ability, _)
 	if ability_name == "kunkka_x_marks_the_spot" then
 		if not target then return end
 		kunkka.__xMarkTarget = target
@@ -53,12 +46,8 @@ function AbilityCore.npc_dota_hero_kunkka:CastedAbilityHandler(keys, kunkka, abi
 		print("XMARK RETURN CASTED",kunkka.__xMarkTarget:GetUnitName())
 		ReturnXMarkTargets(kunkka, kunkka.__xMarkTarget)
 	end
-	if ability_name == "kunkka_ghostship" then
-		local targetPos = ability:GetCursorPosition()
-		print("GHOST SHIP TARGET POSITION",targetPos)
-		grabEnemies(kunkka)
-	end
 end
 
-
-
+function AbilityCore.npc_dota_hero_kunkka:CastAbilityAtPositionHandler(hero, target_position, ability, keys)
+	
+end
