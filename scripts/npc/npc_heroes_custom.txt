@@ -175,4 +175,15 @@
 		"Ability5"					"holdout_reverse_polarity"	
 		"Ability6"					"attribute_bonus"				
 	}
+	"npc_dota_hero_vengefulspirit_imba"
+	{
+		"override_hero"		"npc_dota_hero_vengefulspirit"
+		"Ability2"			"vengefulspirit_wave_of_terror_imba"
+		"Ability8"			"vengefulspirit_modifier_applier"
+	}
+	"npc_dota_hero_pudge_imba"
+	{
+		"override_hero"		"npc_dota_hero_pudge"
+		"Ability1"			"pudge_meat_hook_imba"
+	}
 }

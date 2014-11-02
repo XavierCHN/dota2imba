@@ -22,6 +22,8 @@
 	"npc_dota_hero_queenofpain"			"1"
 	"npc_dota_hero_storm_spirit"		"1"
 	"npc_dota_hero_magnataur"			"1"
+	"npc_dota_hero_vengefulspirit"		"1"
+	"npc_dota_hero_pudge"				"1"
 
 	"npc_dota_hero_shadow_shaman"		"0"//9
 	"npc_dota_hero_tiny"				"0"//12

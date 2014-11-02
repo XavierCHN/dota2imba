@@ -2,6 +2,12 @@
 -- AUTHOR: XAVIERCHN
 -- 2014.10.24
 
+--[[
+	几乎所有的英雄技能代码都在abilities文件夹中
+	AbilityCore是各种事件的响应
+	以此派生出各种事件接口，比如说某个英雄释放某个技能/被释放技能的接口
+	还有英雄学习某个技能的接口，用来处理副技能的情况
+]]
 require("Globals")
 require('items/ItemCore')
 require("abilities/AbilityCore")

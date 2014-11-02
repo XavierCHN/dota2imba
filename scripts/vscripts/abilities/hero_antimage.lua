@@ -15,13 +15,18 @@ if AbilityCore.npc_dota_hero_antimage == nil then
 end
 -- self[target_name]:CastedAbilityHandler(keys, hero, ability, ability_target, ability_name)
 function AbilityCore.npc_dota_hero_antimage:CastedAbilityHandler(antimage, source, ability, keys)
+	-- 当敌法师被释放一个指向性技能
 
+	-- 眩晕持续时间表
 	local stun_duration = {0, 1, 1.5, 2, 2.5}
+	-- 眩晕间隔
 	local trigger_cooldown = {0, 4, 5, 6, 7}
 
+	-- 获取魔法盾的等级
 	local ability_spell_shield = antimage:FindAbilityByName("antimage_spell_shield")
 	local ability_level = ability_spell_shield:GetLevel()
 
+	-- 百分比概率，如果成功，就给单位添加被眩晕的状态
 	local chance = 5
 	if RandomInt(1,100) < chance then
 		source:AddNewModifier(antimage,source,"modifier_stunned",{Duration = stun_duration[ability_level + 1]})
@@ -173,18 +178,4 @@ function OnManaVoidAttackLanded(keys)
 	
 	-- 创建马甲并释放技能
 	CreateDummyAndCastAbilityOnTarget(caster, "antimage_mana_void", ability:GetLevel(), target, 1, false)
-	
-	-- local mana_to_damage = target:GetMaxMana() - target:GetMana()
-	-- local damage_ratio = ability:GetLevelSpecialValueFor('damage_ratio', ability:GetLevel() -1)
-	-- local damage_to_deal = mana_to_damage * damage_ratio
-	-- local damage_dealt = ApplyDamage({
-	-- 	victim = target,
-	-- 	attacker = caster,
-	-- 	damage = damage_to_deal,
-	-- 	damage_type = DAMAGE_TYPE_PHYSICAL,
-	-- 	damage_flags = 0,
-	-- 	ability = ability
-	-- })
-	-- target:EmitSound("Hero_Antimage.ManaVoid")
-	-- FireEffectAndRelease("particles/units/heroes/hero_antimage/antimage_manavoid.vpcf", target, target:GetOrigin() + Vector(0,0,150))
 end
