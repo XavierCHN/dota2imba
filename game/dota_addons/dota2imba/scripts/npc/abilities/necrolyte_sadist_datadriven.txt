@@ -1,0 +1,107 @@
+// Rewrite of the Necrophos Sadist ability
+// Author: Pizzalol
+// Date: 06.01.2015.
+// Changed: 10.01.2015.
+// Reason: Improved the code
+"necrolyte_sadist_datadriven"
+{
+	// General
+	//-------------------------------------------------------------------------------------------------------------
+	"BaseClass"				"ability_datadriven"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityTextureName"			"necrolyte_sadist"
+	
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"mana_regen"		"2 4 6 10"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"hero_multiplier"	"10"			// Only used for the stack count
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"health_regen"		"1 2 3 4"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"regen_duration"			"6.0"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_sadist_datadriven"
+		{
+			"Passive"	"1"
+			"IsHidden"	"1"
+
+			"OnKill"
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_sadist_regen_datadriven"
+					"Target"		"CASTER"
+				}
+			}
+
+			"OnHeroKilled"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"scripts/vscripts/heroes/hero_necrolyte/sadist.lua"
+					"Function"		"ApplySadistHero"
+					"modifier"	"modifier_sadist_regen_datadriven"
+				}
+			}
+		}
+
+		// Stack modifier
+		"modifier_sadist_buff_datadriven"
+		{
+			"IsBuff"	"1"
+			"Duration"	"%regen_duration"
+		}
+
+		"modifier_sadist_regen_datadriven"
+		{
+			"Duration"	"%regen_duration"
+			"IsHidden"	"1"
+
+			"Attributes"	"MODIFIER_ATTRIBUTE_MULTIPLE"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"scripts/vscripts/heroes/hero_necrolyte/sadist.lua"
+					"Function"		"ApplySadist"
+					"stack_modifier"	"modifier_sadist_buff_datadriven"
+				}
+			}
+
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"scripts/vscripts/heroes/hero_necrolyte/sadist.lua"
+					"Function"		"RemoveSadist"
+					"stack_modifier"	"modifier_sadist_buff_datadriven"
+				}
+			}
+
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_MANA_REGEN_CONSTANT"		"%mana_regen"
+				"MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"	"%health_regen"
+			}
+		}
+	}
+}
+
