@@ -35,6 +35,8 @@ local stringReplace(str, src, res)
 	return result
 end
 
+-- 将计算公式转换为后序表达式
+
 local function CalculateParenthesesExpression(sExpression)
 	local vOperatorList = {}
 	local sOperator = ""
@@ -52,12 +54,16 @@ local function CalculateParenthesesExpression(sExpression)
 				sExpression = string.sub(sExpression,2)
 				if (sExpression == "") then break end
 			end
-			sExpressionString = sExpressionString + sOperand + "|"
+			sExpressionString = sExpressionString .. sOperand .. "|"
 		end
+
+		-- 处理字符串
+
+		-- 处理 %
 
 		-- 处理左括号
 		if (string.len(sExpression) > 0 and sExpression[1] == "(") then
-			table.insert(vOperatorList,"(")
+			vOperatorList[#vOperatorList + 1] = "("
 			sExpression = string.sub(sExpression,2)
 		end
 
@@ -66,22 +72,43 @@ local function CalculateParenthesesExpression(sExpression)
 		if (string.len(sExpression) > 0 and sExpression[1] == ")") then
 			do
 				if (vOperatorList[#vOperatorList] - 1) ~= "(" then
-					sOperand = sOperand + vOperatorList[#vOperatorList] + "|"
-					table.remove(vOperatorList, #vOperatorList)
+					sOperand = sOperand .. vOperatorList[#vOperatorList] .. "|"
+					vOperatorList[#vOperatorList] = nil
 				else
-					table.remove(vOperatorList, #vOperatorList)
+					vOperatorList[#vOperatorList] = nil
 					break
 				end
 			while(true)
-			sExpressionString = sExpressionString + sOperand
+			sExpressionString = sExpressionString .. sOperand
 			sExpression = string.sub(sExpression, 2)
 		end
 
 		-- 处理运算符
 		sOperand = ""
 		if (string.len(sExpression) >0 and (
-				
-			))
+				sExpression[1] == "+" or
+				sExpression[1] == "-" or
+				sExpression[1] == "*" or
+				sExpression[1] == "/"
+			)) then
+			sOperator = sExpression[1]
+			if (#vOperatorList>0) then
+				if (vOperatorList[#vOperatorList] == "(" or verifyOperatorPriority(sOperator, vOperatorList[#vOperatorList])) then
+					table.insert(vOperatorList, sOperator)
+				else
+					sOperand = sOperand .. vOperatorList[#vOperatorList] .. "|"
+					vOperatorList[#vOperatorList] = nil
+					vOperatorList[#vOperatorList + 1] = sOperator
+					sExpressionString = sExpressionString .. sOperand
+				end
+			else
+				vOperatorList[#vOperatorList + 1] = sOperator
+			end
+			sExpression = string.sub(sExpression, 2)
+		end
+
+		sOperand = ""
+		while()
 
 	end
 end

@@ -1,0 +1,9 @@
+"npc_dota_hero_abaddon_datadriven"
+{
+	"override_hero" "npc_dota_hero_abaddon"
+
+	"Ability1" "abaddon_death_coil_datadriven"
+	"Ability2" "abaddon_aphotic_shield_datadriven"
+	"Ability3" "abaddon_frostmourne_datadriven"
+	"Ability4" "abaddon_borrowed_time_datadriven"
+}

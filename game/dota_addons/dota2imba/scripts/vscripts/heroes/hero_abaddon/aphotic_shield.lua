@@ -9,6 +9,8 @@ function AphoticShield( event )
 	local max_damage_absorb = event.ability:GetLevelSpecialValueFor("damage_absorb", event.ability:GetLevel() - 1 )
 	local shield_size = 75 -- could be adjusted to model scale
 
+	print("AphoticShieldStart")
+
 	-- Strong Dispel
 	local RemovePositiveBuffs = false
 	local RemoveDebuffs = true

@@ -55,6 +55,11 @@
 			"var_type"				"FIELD_FLOAT"
 			"tick_rate"				"1.0"
 		}
+		"06"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"armor_reduction_stack"	"1"
+		}
 	}
 
 	"precache"
@@ -128,9 +133,31 @@
 					"Type"			 "DAMAGE_TYPE_PHYSICAL"
 					"Damage"		 "%damage"
 				}
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_alchemist/acid_spray.lua"
+					"Function"		"AcidSprayThinkInterval"
+					"Target"		"TARGET"
+				}
+			}
+			"OnDestroy"
+			{
+				"RemoveModifier"
+				{
+					"Target" 			"TARGET"
+					"ModifierName"		"modifier_acid_spray_stack"
+				}
 			}
 		}
-
+		"modifier_acid_spray_stack"
+		{
+			"IsDebuff"				"1"
+			"IsHidden"				"0"
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"	"%armor_reduction_stack"
+			}
+		}
 	}
 
 }

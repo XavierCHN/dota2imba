@@ -31,9 +31,11 @@ function DeathCoil( event )
 	local caster = event.caster
 	local target = event.target
 	local ability = event.ability
-	local damage = ability:GetLevelSpecialValueFor( "target_damage" , ability:GetLevel() - 1  )
+	
 	local self_damage = ability:GetLevelSpecialValueFor( "self_damage" , ability:GetLevel() - 1  )
+	local damage = ability:GetLevelSpecialValueFor( "target_damage" , ability:GetLevel() - 1  )
 	local heal = ability:GetLevelSpecialValueFor( "heal_amount" , ability:GetLevel() - 1 )
+
 	local projectile_speed = ability:GetSpecialValueFor( "projectile_speed" )
 	local particle_name = "particles/units/heroes/hero_abaddon/abaddon_death_coil.vpcf"
 
@@ -46,8 +48,15 @@ function DeathCoil( event )
 		ApplyDamage({ victim = target, attacker = caster, damage = damage,	damage_type = DAMAGE_TYPE_MAGICAL })
 	else
 		target:Heal( heal, caster)
+		-- apply imba aphotic shield modifier
+		local ability_shield = caster:FindAbilityByName("abaddon_aphotic_shield_datadriven")
+		if ability_shield and ability_shield:GetLevel() > 0 then
+			if target:HasModifier("modifier_aphotic_shield") then
+				target:RemoveModifierByName("modifier_aphotic_shield")
+			end
+			ability_shield:ApplyDataDrivenModifier(caster, target, "modifier_aphotic_shield", {})
+		end
 	end
-
 	-- Self Damage
 	ApplyDamage({ victim = caster, attacker = caster, damage = self_damage,	damage_type = DAMAGE_TYPE_MAGICAL })
 
@@ -58,8 +67,8 @@ function DeathCoil( event )
 		Ability = ability,
 		EffectName = particle_name,
 		bDodgeable = false,
-			bProvidesVision = true,
-			iMoveSpeed = projectile_speed,
+		bProvidesVision = true,
+		iMoveSpeed = projectile_speed,
         iVisionRadius = 0,
         iVisionTeamNumber = caster:GetTeamNumber(),
 		iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1

@@ -42,7 +42,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"				"3600.0"
+				"duration"				"13.0"
 			}
 			"02"
 			{
@@ -53,21 +53,6 @@
 			{
 				"var_type"				"FIELD_INTEGER"
 				"radius"				"675"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"explode_buff_bonus_damage"				"10 20 30 40"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"explode_buff_bonus_armor"				"1 2 3 4"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"explode_buff_duration"				"7.5"
 			}
 		}
 	
@@ -81,12 +66,6 @@
 	
 		"OnSpellStart"
 		{
-			"RunScript"
-			{
-				"ScriptFile"	"heroes/hero_abaddon/aphotic_shield.lua"
-				"Function"		"AphoticShield"
-			}
-	
 			"FireSound"
 			{
 				"EffectName"	"Hero_Abaddon.AphoticShield.Cast"
@@ -113,6 +92,15 @@
 				"IsBuff"			"1"
 				"Duration"			"%duration"
 			
+				"OnCreated"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/hero_abaddon/aphotic_shield.lua"
+						"Function"		"AphoticShield"
+					}
+				}
+	
 				"ThinkInterval"		"0.03"
 	
 				"OnIntervalThink"
@@ -131,6 +119,17 @@
 						"ScriptFile"	"heroes/hero_abaddon/aphotic_shield.lua"
 						"Function"		"AphoticShieldAbsorb"
 						"DamageTaken"	"%attack_damage"
+					}
+				}
+	
+				"OnAttacked"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/DamageSystem.lua"
+						"Target"		"ATTACKER"
+						"Function"		"Damage"
+						"formula"		"s_GetStrength * 2"
 					}
 				}
 	
@@ -365,11 +364,6 @@
 				"var_type"				"FIELD_INTEGER"
 				"heal_amount"			"100 150 200 250"
 			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"ap_amp"				"5"
-			}
 		}
 	
 		"precache"
@@ -393,20 +387,6 @@
 			{
 				"ScriptFile"	"heroes/hero_abaddon/death_coil.lua"
 				"Function"		"DeathCoil"
-			}
-		}
-	
-		"OnSpellStart"
-		{
-			"RunScript"
-			{
-				"ScriptFile"	"scripts/vscripts/DamageSystem.lua"
-				"Function"		"Damage"
-	
-				"Target"		"CASTER"
-				"Type"			"DAMAGE_TYPE_PHYSICAL"
-				"Flags"			"DOTA_UNIT_TARGET_FLAG_INVULNERABLE | DOTA_UNIT_TARGET_FLAG_NO_INVIS"
-				"formula"		"s_GetAP * %ap_amp"
 			}
 		}
 	}
@@ -492,6 +472,15 @@
 						"ModifierName"		"modifier_frostmourne_buff"
 					}
 				}
+				"OnKill"
+				{
+					"RunScript"
+					{
+						"ScriptFile" 	"scripts/vscripts/heroes/hero_abaddon/frost_mourne.lua"
+						"Target"		"VICTIM"
+						"Function"		"OnAbaddonKill"
+					}
+				}
 			}
 	
 			"modifier_frostmourne_debuff"
@@ -511,15 +500,6 @@
 					{
 						"Target"			"ATTACKER"
 						"ModifierName"		"modifier_frostmourne_buff"
-					}
-				}
-				"OnOwnerDied"
-				{
-					"RunScript"
-					{
-						"ScriptFile" 	"scripts/vscripts/heroes/hero_abaddon/frost_mourne.lua"
-						"Target"		"TARGET"
-						"Function"		"OnFrostMourneTargetDead"
 					}
 				}
 			}
@@ -891,6 +871,11 @@
 				"var_type"				"FIELD_FLOAT"
 				"tick_rate"				"1.0"
 			}
+			"06"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"armor_reduction_stack"	"1"
+			}
 		}
 	
 		"precache"
@@ -964,9 +949,31 @@
 						"Type"			 "DAMAGE_TYPE_PHYSICAL"
 						"Damage"		 "%damage"
 					}
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/hero_alchemist/acid_spray.lua"
+						"Function"		"AcidSprayThinkInterval"
+						"Target"		"TARGET"
+					}
+				}
+				"OnDestroy"
+				{
+					"RemoveModifier"
+					{
+						"Target" 			"TARGET"
+						"ModifierName"		"modifier_acid_spray_stack"
+					}
 				}
 			}
-	
+			"modifier_acid_spray_stack"
+			{
+				"IsDebuff"				"1"
+				"IsHidden"				"0"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"	"%armor_reduction_stack"
+				}
+			}
 		}
 	
 	}
@@ -1009,7 +1016,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"				"25.0"
+				"duration"				"35.0"
 			}
 			"02"
 			{
@@ -1019,7 +1026,7 @@
 			"03"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"base_attack_time"		"1.4 1.2 1.0"
+				"base_attack_time"		"1.0 0.8 0.6"
 			}
 			"04"
 			{
@@ -1137,7 +1144,7 @@
 			"01"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"duration"				"25"
+				"duration"				"999"
 			}
 			"02"
 			{
@@ -1152,7 +1159,7 @@
 			"04"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"bonus_gold_cap"		"30"
+				"bonus_gold_cap"		"101"
 			}
 		}
 	
@@ -1260,7 +1267,7 @@
 			"07"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"radius"					"175"
+				"radius"					"375"
 			}
 		}
 	
@@ -2794,6 +2801,11 @@
 			{
 				"var_type"						"FIELD_INTEGER"
 				"mana_void_aoe_radius"			"500"
+			}
+			"04"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"mana_void_pull_bonus_radius"	"200"
 			}
 		}
 	

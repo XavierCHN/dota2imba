@@ -55,11 +55,6 @@
 			"var_type"				"FIELD_INTEGER"
 			"heal_amount"			"100 150 200 250"
 		}
-		"05"
-		{
-			"var_type"				"FIELD_INTEGER"
-			"ap_amp"				"5"
-		}
 	}
 
 	"precache"
@@ -83,20 +78,6 @@
 		{
 			"ScriptFile"	"heroes/hero_abaddon/death_coil.lua"
 			"Function"		"DeathCoil"
-		}
-	}
-
-	"OnSpellStart"
-	{
-		"RunScript"
-		{
-			"ScriptFile"	"scripts/vscripts/DamageSystem.lua"
-			"Function"		"Damage"
-
-			"Target"		"CASTER"
-			"Type"			"DAMAGE_TYPE_PHYSICAL"
-			"Flags"			"DOTA_UNIT_TARGET_FLAG_INVULNERABLE | DOTA_UNIT_TARGET_FLAG_NO_INVIS"
-			"formula"		"s_GetAP * %ap_amp"
 		}
 	}
 }

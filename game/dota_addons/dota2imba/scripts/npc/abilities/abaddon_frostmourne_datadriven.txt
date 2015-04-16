@@ -75,6 +75,15 @@
 					"ModifierName"		"modifier_frostmourne_buff"
 				}
 			}
+			"OnKill"
+			{
+				"RunScript"
+				{
+					"ScriptFile" 	"scripts/vscripts/heroes/hero_abaddon/frost_mourne.lua"
+					"Target"		"VICTIM"
+					"Function"		"OnAbaddonKill"
+				}
+			}
 		}
 
 		"modifier_frostmourne_debuff"
@@ -94,15 +103,6 @@
 				{
 					"Target"			"ATTACKER"
 					"ModifierName"		"modifier_frostmourne_buff"
-				}
-			}
-			"OnOwnerDied"
-			{
-				"RunScript"
-				{
-					"ScriptFile" 	"scripts/vscripts/heroes/hero_abaddon/frost_mourne.lua"
-					"Target"		"TARGET"
-					"Function"		"OnFrostMourneTargetDead"
 				}
 			}
 		}

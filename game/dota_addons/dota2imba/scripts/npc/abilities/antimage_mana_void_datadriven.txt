@@ -63,6 +63,11 @@
 			"var_type"						"FIELD_INTEGER"
 			"mana_void_aoe_radius"			"500"
 		}
+		"04"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"mana_void_pull_bonus_radius"	"200"
+		}
 	}
 
 	"OnAbilityPhaseStart"

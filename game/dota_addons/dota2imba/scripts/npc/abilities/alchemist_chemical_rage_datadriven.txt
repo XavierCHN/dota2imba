@@ -32,7 +32,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"duration"				"25.0"
+			"duration"				"35.0"
 		}
 		"02"
 		{
@@ -42,7 +42,7 @@
 		"03"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"base_attack_time"		"1.4 1.2 1.0"
+			"base_attack_time"		"1.0 0.8 0.6"
 		}
 		"04"
 		{

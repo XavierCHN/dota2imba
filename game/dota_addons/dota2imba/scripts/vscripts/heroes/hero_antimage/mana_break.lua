@@ -21,7 +21,7 @@ function ManaBreak( keys )
 		damageTable.damage = manaBurn * manaDamage
 		target:ReduceMana(manaBurn)
 	else
-		damageTable.damage = target:GetMana() * manaDamage
+		damageTable.damage = target:GetMana() * manaDamage + ((manaBurn - target:GetMana()) * 4)--IMBA, 不足的蓝量造成额外伤害
 		target:ReduceMana(manaBurn)
 	end
 

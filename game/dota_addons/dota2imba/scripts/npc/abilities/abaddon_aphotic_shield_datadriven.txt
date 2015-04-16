@@ -36,7 +36,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"duration"				"3600.0"
+			"duration"				"13.0"
 		}
 		"02"
 		{
@@ -47,21 +47,6 @@
 		{
 			"var_type"				"FIELD_INTEGER"
 			"radius"				"675"
-		}
-		"04"
-		{
-			"var_type"				"FIELD_INTEGER"
-			"explode_buff_bonus_damage"				"10 20 30 40"
-		}
-		"05"
-		{
-			"var_type"				"FIELD_INTEGER"
-			"explode_buff_bonus_armor"				"1 2 3 4"
-		}
-		"06"
-		{
-			"var_type"				"FIELD_FLOAT"
-			"explode_buff_duration"				"7.5"
 		}
 	}
 
@@ -75,12 +60,6 @@
 
 	"OnSpellStart"
 	{
-		"RunScript"
-		{
-			"ScriptFile"	"heroes/hero_abaddon/aphotic_shield.lua"
-			"Function"		"AphoticShield"
-		}
-
 		"FireSound"
 		{
 			"EffectName"	"Hero_Abaddon.AphoticShield.Cast"
@@ -107,6 +86,15 @@
 			"IsBuff"			"1"
 			"Duration"			"%duration"
 		
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_abaddon/aphotic_shield.lua"
+					"Function"		"AphoticShield"
+				}
+			}
+
 			"ThinkInterval"		"0.03"
 
 			"OnIntervalThink"
@@ -125,6 +113,17 @@
 					"ScriptFile"	"heroes/hero_abaddon/aphotic_shield.lua"
 					"Function"		"AphoticShieldAbsorb"
 					"DamageTaken"	"%attack_damage"
+				}
+			}
+
+			"OnAttacked"
+			{
+				"RunScript"
+				{
+					"ScriptFile" 	"scripts/vscripts/DamageSystem.lua"
+					"Target"		"ATTACKER"
+					"Function"		"Damage"
+					"formula"		"s_GetStrength * 2"
 				}
 			}
 

@@ -17,7 +17,7 @@
 		"01"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"duration"				"25"
+			"duration"				"999"
 		}
 		"02"
 		{
@@ -32,7 +32,7 @@
 		"04"
 		{
 			"var_type"				"FIELD_INTEGER"
-			"bonus_gold_cap"		"30"
+			"bonus_gold_cap"		"101"
 		}
 	}
 

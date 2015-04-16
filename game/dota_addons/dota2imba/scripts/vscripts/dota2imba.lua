@@ -39,7 +39,7 @@ DISABLE_GOLD_SOUNDS = false             -- Should we disable the gold sound when
 END_GAME_ON_KILLS = true                -- Should the game end after a certain number of kills?
 KILLS_TO_END_GAME_FOR_TEAM = 50         -- How many kills for a team should signify an end of game?
 
-USE_CUSTOM_HERO_LEVELS = true           -- Should we allow heroes to have custom levels?
+USE_CUSTOM_HERO_LEVELS = false           -- Should we allow heroes to have custom levels?
 MAX_LEVEL = 50                          -- What level should we let heroes get to?
 USE_CUSTOM_XP_VALUES = true             -- Should we use custom XP values to level up heroes, or the default Dota numbers?
 

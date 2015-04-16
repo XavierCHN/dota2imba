@@ -16,3 +16,15 @@ function AcidSpraySound( event )
 	end)
 
 end
+-- 每在酸雾里面多待一秒，那么多叠加一层
+function AcidSprayThinkInterval( event )
+	local caster = event.caster
+	local target = event.target
+	local ability = event.ability
+	if not target:HasModifier("modifier_acid_spray_stack") then
+		ability:ApplyDataDrivenModifier(caster, target, "modifier_acid_spray_stack", {})
+	else
+		local stackCount = target:GetModifierStackCount("modifier_acid_spray_stack",ability)
+		target:SetModifierStackCount("modifier_acid_spray_stack",ability,stackCount + 1)
+	end
+end
