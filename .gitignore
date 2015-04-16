@@ -46,3 +46,7 @@ Temporary Items
 
 game/dota_addons/dota2imba/maps/dota.vpk
 content/dota_addons/dota2imba/maps/dota.vmap
+game/dota_addons/dota2imba/maps/dota_pvp_tiled.vpk
+content/dota_addons/dota2imba/maps/dota_pvp_tiled.vmap
+game/dota_addons/dota2imba/maps/simple_dota_map_example.vpk
+content/dota_addons/dota2imba/maps/simple_dota_map_example.vmap
