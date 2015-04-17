@@ -53,6 +53,11 @@
 			"var_type"					"FIELD_FLOAT"
 			"trigger_radius"			"1000"
 		}
+		"05"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"trigger_chance_per_agi"	"0.00075"
+		}
 	}
 
 	"Modifiers"
@@ -74,20 +79,20 @@
 
 			"OnAttackStart"
 			{
-				"Random"
-				{
-					"Chance"			"%trigger_chance"
-					"PseudoRandom" 		"DOTA_PSEUDO_RANDOM_JUGG_CRIT"
-					"OnSuccess"
-					{
+				// "Random"
+				// {
+				// 	"Chance"			"%trigger_chance"
+				// 	"PseudoRandom" 		"DOTA_PSEUDO_RANDOM_JUGG_CRIT"
+				// 	"OnSuccess"
+				// 	{
 						"RunScript"
 						{
 							"ScriptFile"	"heroes/hero_axe/counter_helix.lua"
 							"Function"		"CounterHelix"
 							"helix_modifier"	"modifier_counter_helix_datadriven"
 						}
-					}
-				}
+				// 	}
+				// }
 			}
 		}
 

@@ -44,6 +44,11 @@
 			"var_type"						"FIELD_INTEGER"
 			"enfeeble_attack_reduction"		"-30 -60 -90 -120"
 		}
+		"02"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"enfeeble_damage_reduction"		"-30 -42 -54 -66"
+		}
 	}
 
 	"OnSpellStart"
@@ -80,6 +85,8 @@
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"	"%enfeeble_attack_reduction"
+				//IMBA
+				"MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE"	"%enfeeble_damage_reduction"
 			}
 		}
 	}

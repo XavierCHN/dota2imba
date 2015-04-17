@@ -43,10 +43,20 @@
 	
 	"AbilitySpecial"
 	{
-	"01"
+		"01"
 		{
 			"var_type"						"FIELD_INTEGER"
 			"tooltip_brain_sap_heal_amt"		"90 160 230 300"
+		}
+		"02"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"health_reduce_duration"		"10"
+		}
+		"03"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"health_reduce_percentage"		"-10 -20 -30 -40"
 		}
 	}
 
@@ -75,7 +85,12 @@
 			}
 		}
 
-
+		// IMBA
+		"ApplyModifier"
+		{
+			"Target"		"TARGET"
+			"ModifierName"	"modifier_bane_brain_snap_debuff_imba"
+		}
 
 		"Damage"
 		{
@@ -88,6 +103,19 @@
 		{
 			"Target"	"CASTER"
 			"HealAmount"	"%tooltip_brain_sap_heal_amt"
+		}
+	}
+	"Modifiers"
+	{
+		"modifier_bane_brain_snap_debuff_imba"
+		{
+			"IsDebuff"			"1"
+			"IsPurgable"		"0"
+			"Duration"			"%health_reduce_duration"
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_HEALTH_BONUS"	"%health_reduce_percentage"
+			}
 		}
 	}
 }

@@ -89,6 +89,11 @@
 			"var_type"					"FIELD_FLOAT"
 			"speed_duration_scepter"	"10"
 		}
+		"090"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"culling_blade_aoe"			"375"
+		}
 	}
 
 	"OnSpellStart"

@@ -67,6 +67,11 @@
 			"var_type"					"FIELD_INTEGER"
 			"speed_bonus"						"12"
 		}
+		"04"
+		{
+			"var_type"					"FIELD_FLOAT"
+			"health_damage_percentage"	"0.008 0.011 0.014 0.017"
+		}
 	}
 
 	"OnSpellStart"
@@ -116,12 +121,20 @@
 			"ThinkInterval"  "1.0"
 			"OnIntervalThink"
 			{
-				"Damage"
+				"RunScript"
 				{
+					"ScriptFile" 	"scripts/vscripts/DamageSystem.lua"
 					"Target"		"TARGET"
-					"Type"			"DAMAGE_TYPE_MAGICAL"
-					"Damage"		"%AbilityDamage"
+					"Function"		"Damage"
+					"formula"		"t_GetMaxHealth * %health_damage_percentage"
+					"Flags"			"DOTA_UNIT_TARGET_FLAG_INVULNERABLE | DOTA_UNIT_TARGET_FLAG_NO_INVIS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 				}
+				// "Damage"
+				// {
+				// 	"Target"		"TARGET"
+				// 	"Type"			"DAMAGE_TYPE_MAGICAL"
+				// 	"Damage"		"%AbilityDamage"
+				// }
 			}
 
 			"OnCreated"

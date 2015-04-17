@@ -2691,7 +2691,7 @@
 			"02"
 			{
 				"var_type"				"FIELD_INTEGER"
-				"mana_per_hit"			"28 40 52 64"
+				"mana_per_hit"			"56 80 104 128"
 			}
 		}
 	
@@ -3068,6 +3068,11 @@
 				"var_type"					"FIELD_INTEGER"
 				"speed_bonus"						"12"
 			}
+			"04"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"health_damage_percentage"	"0.008 0.011 0.014 0.017"
+			}
 		}
 	
 		"OnSpellStart"
@@ -3117,12 +3122,20 @@
 				"ThinkInterval"  "1.0"
 				"OnIntervalThink"
 				{
-					"Damage"
+					"RunScript"
 					{
+						"ScriptFile" 	"scripts/vscripts/DamageSystem.lua"
 						"Target"		"TARGET"
-						"Type"			"DAMAGE_TYPE_MAGICAL"
-						"Damage"		"%AbilityDamage"
+						"Function"		"Damage"
+						"formula"		"t_GetMaxHealth * %health_damage_percentage"
+						"Flags"			"DOTA_UNIT_TARGET_FLAG_INVULNERABLE | DOTA_UNIT_TARGET_FLAG_NO_INVIS | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
 					}
+					// "Damage"
+					// {
+					// 	"Target"		"TARGET"
+					// 	"Type"			"DAMAGE_TYPE_MAGICAL"
+					// 	"Damage"		"%AbilityDamage"
+					// }
 				}
 	
 				"OnCreated"
@@ -3226,8 +3239,13 @@
 			"03"
 			{
 				"var_type"				"FIELD_FLOAT"
-				"duration"				"2.0 2.4 2.8 3.2"
-			}	
+				"duration"				"3.5 4.25 5 5.75"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"incoming_damage_reduce"	"-20 -40 -60 -80"
+			}
 		}
 	
 		"OnSpellStart"
@@ -3291,6 +3309,7 @@
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"	"%bonus_armor"
+					"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE"	"%incoming_damage_reduce"
 				}
 			}
 	
@@ -3383,6 +3402,11 @@
 				"var_type"					"FIELD_FLOAT"
 				"trigger_radius"			"1000"
 			}
+			"05"
+			{
+				"var_type"					"FIELD_FLOAT"
+				"trigger_chance_per_agi"	"0.00075"
+			}
 		}
 	
 		"Modifiers"
@@ -3404,20 +3428,20 @@
 	
 				"OnAttackStart"
 				{
-					"Random"
-					{
-						"Chance"			"%trigger_chance"
-						"PseudoRandom" 		"DOTA_PSEUDO_RANDOM_JUGG_CRIT"
-						"OnSuccess"
-						{
+					// "Random"
+					// {
+					// 	"Chance"			"%trigger_chance"
+					// 	"PseudoRandom" 		"DOTA_PSEUDO_RANDOM_JUGG_CRIT"
+					// 	"OnSuccess"
+					// 	{
 							"RunScript"
 							{
 								"ScriptFile"	"heroes/hero_axe/counter_helix.lua"
 								"Function"		"CounterHelix"
 								"helix_modifier"	"modifier_counter_helix_datadriven"
 							}
-						}
-					}
+					// 	}
+					// }
 				}
 			}
 	
@@ -3578,6 +3602,11 @@
 			{
 				"var_type"					"FIELD_FLOAT"
 				"speed_duration_scepter"	"10"
+			}
+			"090"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"culling_blade_aoe"			"375"
 			}
 		}
 	
@@ -3746,10 +3775,20 @@
 		
 		"AbilitySpecial"
 		{
-		"01"
+			"01"
 			{
 				"var_type"						"FIELD_INTEGER"
 				"tooltip_brain_sap_heal_amt"		"90 160 230 300"
+			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"health_reduce_duration"		"10"
+			}
+			"03"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"health_reduce_percentage"		"-10 -20 -30 -40"
 			}
 		}
 	
@@ -3778,7 +3817,12 @@
 				}
 			}
 	
-	
+			// IMBA
+			"ApplyModifier"
+			{
+				"Target"		"TARGET"
+				"ModifierName"	"modifier_bane_brain_snap_debuff_imba"
+			}
 	
 			"Damage"
 			{
@@ -3791,6 +3835,19 @@
 			{
 				"Target"	"CASTER"
 				"HealAmount"	"%tooltip_brain_sap_heal_amt"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_bane_brain_snap_debuff_imba"
+			{
+				"IsDebuff"			"1"
+				"IsPurgable"		"0"
+				"Duration"			"%health_reduce_duration"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_HEALTH_BONUS"	"%health_reduce_percentage"
+				}
 			}
 		}
 	}
@@ -3845,6 +3902,11 @@
 				"var_type"						"FIELD_INTEGER"
 				"enfeeble_attack_reduction"		"-30 -60 -90 -120"
 			}
+			"02"
+			{
+				"var_type"						"FIELD_INTEGER"
+				"enfeeble_damage_reduction"		"-30 -42 -54 -66"
+			}
 		}
 	
 		"OnSpellStart"
@@ -3881,6 +3943,8 @@
 				"Properties"
 				{
 					"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"	"%enfeeble_attack_reduction"
+					//IMBA
+					"MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE"	"%enfeeble_damage_reduction"
 				}
 			}
 		}

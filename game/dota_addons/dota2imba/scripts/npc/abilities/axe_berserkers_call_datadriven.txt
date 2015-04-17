@@ -53,8 +53,13 @@
 		"03"
 		{
 			"var_type"				"FIELD_FLOAT"
-			"duration"				"2.0 2.4 2.8 3.2"
-		}	
+			"duration"				"3.5 4.25 5 5.75"
+		}
+		"04"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"incoming_damage_reduce"	"-20 -40 -60 -80"
+		}
 	}
 
 	"OnSpellStart"
@@ -118,6 +123,7 @@
 			"Properties"
 			{
 				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS"	"%bonus_armor"
+				"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE"	"%incoming_damage_reduce"
 			}
 		}
 
