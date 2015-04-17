@@ -2,7 +2,9 @@
 {
 	"npc_dota_hero_abaddon"		"1"// Finished
 	"npc_dota_hero_alchemist"	"1"// Finished
-	"npc_dota_hero_antimage"	"1"
+	"npc_dota_hero_antimage"	"1"// Finished
+	"npc_dota_hero_axe"			"1"// Finished
+	"npc_dota_hero_bane"		"1"// 75% Finished, imba ultimate required
 
 
 	"npc_dota_hero_storm_spirit"	"1"

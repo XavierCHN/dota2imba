@@ -52,6 +52,11 @@
 			"var_type"						"FIELD_INTEGER"
 			"blink_damage_cooldown"			"3"
 		}
+		"04"
+		{
+			"var_type"						"FIELD_INTEGER"
+			"blink_range_broken"			"300"
+		}
 	}
 	
 	"OnSpellStart"
@@ -63,6 +68,7 @@
 			"Target"				"POINT"
 			"MaxBlinkRange"			"%max_blink_range"
 			"BlinkRangeClamp"		"%blink_range_clamp"
+			"BlinkRangeOnBroken"	"%blink_range_broken"
 		}
 	}
 	

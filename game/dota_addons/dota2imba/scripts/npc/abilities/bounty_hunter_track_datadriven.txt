@@ -206,6 +206,17 @@
 			{
 				"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"	"%bonus_move_speed_pct"
 			}
+
+			// IMBA
+			"OnAttackStart"
+			{
+				"RunScript"
+				{
+					"ScriptFile" 	"scripts/vscripts/heroes/hero_bounty_hunter/track.lua"
+					"Target"		"TARGET"
+					"Function"		"OnTrackAttempToAttack"
+				}
+			}
 		}
 
 		"modifier_track_reveal_datadriven"

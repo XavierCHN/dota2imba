@@ -1,0 +1,8 @@
+"npc_dota_hero_bane_datadriven"
+{
+	"override_hero"		"npc_dota_hero_bane"
+	"Ability1"			"bane_enfeeble_datadriven"
+	"Ability2"			"bane_brain_sap_datadriven"
+	"Ability3"			"bane_nightmare_datadriven"
+	"Ability4"			"bane_fiends_grip_datadriven"
+}

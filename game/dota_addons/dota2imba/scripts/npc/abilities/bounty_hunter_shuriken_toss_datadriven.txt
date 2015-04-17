@@ -63,6 +63,11 @@
 			"var_type"				"FIELD_FLOAT"
 			"mini_stun"				"0.1"
 		}
+		"05"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"shuriken_pull_duration"	"2 3 4 5"
+		}
 	}
 
 	"OnSpellStart"
@@ -115,8 +120,29 @@
         	"EffectName"	"Hero_BountyHunter.Shuriken.Impact"
         	"Target"		"TARGET"
         }
-
+        "ApplyModifier"
+        {
+        	"Target" 			"TARGET"
+        	"ModifierName"		"modifeir_shuriken_pull"
+        }
     }
-
+    "Modifiers"
+    {
+    	"modifeir_shuriken_pull"
+    	{
+    		"IsDebuff"			"1"
+    		"Duration"			"%shuriken_pull_duration"
+    		"ThinkInterval"		"0.1"
+    		"OnIntervalThink"
+    		{
+    			"RunScript"
+    			{
+    				"ScriptFile" 	"scripts/vscripts/heroes/hero_bounty_hunter/shuriken_toss.lua"
+    				"Target"		"TARGET"
+    				"Function"		"OnShurikenPull"
+    			}
+    		}
+    	}
+    }
 }
 

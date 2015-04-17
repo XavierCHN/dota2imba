@@ -30,3 +30,11 @@ function Track( keys )
 	-- NOTE: Trying to do this in KV is not possible it seems
 	target:RemoveModifierByName("modifier_track_aura_datadriven") 
 end
+
+-- imba 施法者在技能持续时间内，对目标有了攻击意图，若两者距离小于1500/3000/4500码，则会瞬间移动到目标身边对其进行攻击。
+function OnTrackAttempToAttack(keys)
+	print("bounty hunter attemp to attack a track target")
+	for k,v in pairs(keys) do
+		print(k,v)
+	end
+end
